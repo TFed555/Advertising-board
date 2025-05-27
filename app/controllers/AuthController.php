@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 class AuthController {
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -9,7 +12,9 @@ class AuthController {
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
-                header('Location: /dashboard');
+                header('Location: /');
+                // $baseUrl = 'http://' . $_SERVER['HTTP_HOST'];
+                // header('Location: ' . $baseUrl . '/');
                 exit;
             }
 
