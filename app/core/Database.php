@@ -1,34 +1,30 @@
 <?php
-namespace App\Core;
+class Database {
+    private static $pdo;
 
-use PDO;
-use PDOException;
-
-class Database
-{
-    private $connection;
-
-    public function __construct()
-    {
-        $this->connect();
-    }
-
-    private function connect()
-    {
+    public static function init(array $config) {
         try {
-            $this->connection = new PDO(
-                "mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME'),
-                getenv('DB_USER'),
-                getenv('DB_PASS')
+            self::$pdo = new PDO(
+                "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8",
+                $config['user'],
+                $config['password'],
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                ]
             );
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die("Database connection failed: " . $e->getMessage());
+            die("Database error: " . $e->getMessage());
         }
     }
 
-    public function getConnection()
-    {
-        return $this->connection;
+    public static function query(string $sql, array $params = []) {
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
+
+    public static function getPdo(): PDO {
+        return self::$pdo;
     }
 }
