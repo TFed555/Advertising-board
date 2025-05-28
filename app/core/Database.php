@@ -27,4 +27,8 @@ class Database {
     public static function getPdo(): PDO {
         return self::$pdo;
     }
+
+    public static function lastInsertId() {
+        return self::$pdo->lastInsertId();
+    }
 }

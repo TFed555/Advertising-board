@@ -1,10 +1,8 @@
 <?php
 class HomeController {
     public function index() {
-        // Устанавливаем заголовок страницы
         $title = "Главная страница";
 
-        // Получаем данные (например, из модели)
         $welcomeMessage = "Добро пожаловать на наш сайт!";
         $features = [
             'Быстрая работа',
@@ -12,7 +10,6 @@ class HomeController {
             'Безопасность данных'
         ];
 
-        // Подключаем представление
-        require_once __DIR__ .'/../views/index.php';
+        require_once __DIR__ .'/../views/main.php';
     }
 }

@@ -19,7 +19,7 @@
     }
 
     body {
-      background: url('../../public/assets/bg.png') center/cover no-repeat;
+      background: url('/assets/bg.png') center/cover no-repeat;
       position: relative;
     }
 
@@ -139,10 +139,24 @@
           <div class="site-name">SITE_NAME.COM</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>
-          <form method="POST"></form>
-          <input type="email" name="email" placeholder="Введите email.." required>
-          <input type="password" name="password" placeholder="Введите пароль.." required>
-          <button type="submit">ВОЙТИ</button>
+          <?php if (isset($error)): ?>
+             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
+               <!-- <script>
+                  setTimeout(() => {
+                    document.getElementById('error-message').style.display = 'none';
+                  }, 5000);
+              </script> -->
+          <?php endif; ?>
+          <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <input type="password" name="password" placeholder="Введите пароль.." required>
+            <!-- вот тут выровнять -->
+            <div class="form-group">
+              <input type="checkbox" name="remember_me" id="remember_me">
+              <label for="remember_me">Запомнить меня</label>
+            </div>
+
+            <button type="submit">ВОЙТИ</button>
           </form>
           <div class="register">
             <b><a href="#">Забыли пароль?</a></b>
@@ -154,12 +168,12 @@
         <div class="site-name">SITE_NAME.COM</div>
         <h2>Создайте аккаунт</h2>
         <p>Заполните форму, чтобы зарегистрироваться</p>
-        <form method="POST">
-        <input type="username" name="username" placeholder="Имя пользователя.." />
-        <input type="email" name="email" placeholder="Введите email.." required>
-        <input type="password" name="password" placeholder="Введите пароль.." required>
-        <input type="phone"  name = "phone" placeholder="Номер телефона.." />
-        <button type="submit">Зарегистрироваться</button>
+        <form action="/register" method="POST">
+          <input type="username" name="username" placeholder="Имя пользователя.." />
+          <input type="email" name="email" placeholder="Введите email.." required>
+          <input type="password" name="password" placeholder="Введите пароль.." required>
+          <input type="phone"  name = "phone" placeholder="Номер телефона.." />
+          <button type="submit">Зарегистрироваться</button>
         </form>
         <div class="register">
           Уже есть аккаунт? <b><a  href="#" id="show-login">Войти</a></b>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '/var/www/vendor/autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
 require __DIR__.'/Database.php';
 require __DIR__.'/Router.php';
 
