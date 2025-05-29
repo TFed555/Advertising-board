@@ -1,31 +1,356 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title) ?></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Доска объявлений</title>
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('/assets/bg_main.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #000;
+        }
+
+        /* Контейнер страницы */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(180deg, #fff 0%, #999 100%);
+        }
+
+        /* HEADER */
+        .header {
+            background: url('/assets/header_main.png') no-repeat center;
+            background-size: cover;
+            padding: 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+        }
+
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 180px;
+        }
+
+        .header-text {
+            margin-left: 240px;
+        }
+
+        /* .logout-btn {
+        margin-left: 10px;
+        padding: 8px 16px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: white;
+        color: red;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+        font-size: 13px;
+    } */
+        .header-buttons button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: white;
+            color: red;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        /* .logout-btn:hover {
+      transform: scale(1.05);
+    } */
+        .header-buttons button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Поисковая строка */
+        .search-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .search-input {
+            width: 60%;
+            padding: 10px;
+            border-radius: 15px;
+            border: 2px solid red;
+            font-size: 16px;
+            box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
+            width: 130px;
+        }
+
+        /* Сетка категорий */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+
+        .category-card {
+            box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
+            background: linear-gradient(45deg, #e92525 0%, #920f0f 73.56%);
+            border-radius: 20px;
+            padding: 70px;
+            color: white;
+            text-align: justify;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            width: 200px;
+            padding-bottom: 40px;
+        }
+
+        .category-card img {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            /* Обрезаем лишнее */
+            pointer-events: none;
+        }
+
+        /* Свежие объявления */
+        .listings {
+            padding: 20px;
+        }
+
+        .listings-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .listing-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+
+        }
+
+        .listing-card {
+            flex: 0 0 200px;
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .listing-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: url('/assets/footer_main.png') no-repeat center;
+            background-size: cover;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card p {
+            font-size: 20px;
+            font-size: 20px;
+            margin-bottom: -10px;
+            margin-top: 0px;
+            margin-left: -20px;
+            height: 80px;
+            width: 50px;
+        }
+
+        .overlay {
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
+
 <body>
-    <h1><?= htmlspecialchars($welcomeMessage) ?></h1>
+    <div class="overlay">
+        <div class="container">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="header-text">
+                    Всё что нужно - ты найдёшь у нас! <br />
+                    Тысячи продавцов и тысячи покупателей!
+                </div>
+                <div class="header-buttons">
+                    <button>Подать объявление</button>
 
-    <section>
-        <h2>Наши преимущества:</h2>
-        <ul>
-            <?php foreach ($features as $feature): ?>
-                <li><?= htmlspecialchars($feature) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
-    <a href= '/#'>Войти в личный кабинет</a>
+                    <button>Личный кабинет</button>
 
-    <?php if (isset($_SESSION['user_id'])): ?>
-    <div class="logout-section">
-        <a href="/logout" class="logout-btn">Выйти</a>
-     </div>
-    <?php endif; ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
 
-    <footer>
-        <p>© <?= date('Y') ?> Все права защищены</p>
-    </footer>
+                    <button class="logout-btn"><a href="/logout">Выйти</a></button>
+
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Поисковик -->
+            <div class="search-section">
+                <input class="search-input" type="text" placeholder="Ищите нужные товары" />
+                <button class="search-button">Найти</button>
+            </div>
+
+            <!-- Категории -->
+            <div class="category-grid">
+                <div class="category-card" data-category="1">
+                    <div>
+                        <p>Машины</p>
+                    </div><img src="/assets/car.png" alt="Машины" width="90" height="90" />
+                </div>
+                <div class="category-card" data-category="2">
+                    <p>Квартиры<br> и <br>дачи </p><img src="/assets/kottedzh.png" alt="Квартиры" />
+                </div>
+                <div class="category-card" data-category="3">
+                    <p>Одежда<br> и <br>обувь </p><img src="/assets/odezhda.png" alt="Одежда" />
+                </div>
+                <div class="category-card" data-category="4">
+                    <p>Всё<br> для<br> дома </p><img src="/assets/divan.png" alt="Дом" />
+                </div>
+                <div class="category-card" data-category="5">
+                    <p>Красота<br> и<br> здоровье </p><img src="/assets/beauty.png" alt="Красота" />
+                </div>
+                <div class="category-card" data-category="6">
+                    <p>Электроника<br> и<br> техника </p><img src="/assets/compik.png" alt="Техника" />
+                </div>
+            </div>
+
+            <!-- Свежие объявления -->
+            <div class="listings">
+                <div class="listings-title">Свежие объявления</div>
+                <div class="listing-grid">
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                    <div class="listing-card">
+                        <img src="/assets/bananchik.png" alt="Объявление" />
+                        <div>Автомобиль BANANCHIK</div>
+                        <div>900 000 руб.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer">
+                &copy; 2025. Все права защищены.
+            </div>
+        </div>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".category-card");
+
+    cards.forEach(card => {
+        card.addEventListener("click", function () {
+            const category = card.getAttribute("data-category");
+
+            fetch("/api/category", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ category })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Ответ от сервера:", data);
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                }
+            })
+            .catch(error => console.error("Ошибка:", error));
+        });
+    });
+});
+        </script>
+    <!-- Закомментированный JS (пример подключения к серверу) -->
+    <!--
+  <script>
+    async function fetchListings() {
+      const response = await fetch('/api/listings');
+      const data = await response.json();
+      // renderListings(data);
+    }
+    fetchListings();
+  </script>
+  -->
 </body>
+
 </html>

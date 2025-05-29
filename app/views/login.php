@@ -20,7 +20,7 @@
 
     body {
       /* background: url('/assets/bg.png') center/cover no-repeat; */
-      background: url('../../public/assets/bg.png') center/cover no-repeat;
+      background: url('/assets/bg.png') center/cover no-repeat;
       position: relative;
     }
 
@@ -160,7 +160,7 @@
       <div class="form-wrapper" id="form-wrapper">
 
         <div class="form-box login-form">
-          <div class="logo"><img src="../../public/assets/Logo.png"></div>
+          <div class="logo"><img src="/assets/Logo.png"></div>
           <div class="site-name">Resell.ru</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>

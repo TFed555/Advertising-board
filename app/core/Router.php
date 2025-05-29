@@ -38,7 +38,6 @@ class Router {
 
     // Проверка динамических путей
     private function matchDynamicRoute(string $route, string $path): bool {
-        // Пример: /user/:id → /user/123
         $routePattern = preg_replace('/\/:(\w+)/', '/(?P<$1>\w+)', $route);
         $routePattern = "@^" . $routePattern . "$@";
 
