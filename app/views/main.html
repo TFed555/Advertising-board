@@ -199,7 +199,6 @@
         }
 
         .overlay {
-            position: absolute;
             inset: 0;
             background-color: rgba(0, 0, 0, 0.6);
             display: flex;
@@ -222,7 +221,7 @@
                     <button>Подать объявление</button>
                     <button>Войти</button>
                     <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="logout-btn">Выйти</button>
+                    <button class="logout-btn" formaction="/logout">Выйти</button>
                     <?php endif; ?>
                 </div>
             </div>
