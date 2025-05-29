@@ -19,6 +19,7 @@
     }
 
     body {
+      /* background: url('/assets/bg.png') center/cover no-repeat; */
       background: url('../../public/assets/bg.png') center/cover no-repeat;
       position: relative;
     }
@@ -64,7 +65,7 @@
       margin-bottom: 30px;
       color: #333;
     }
-
+    
     input {
       width: 100%;
       padding: 12px;
@@ -123,6 +124,29 @@
       flex-shrink: 0;
     }
 
+    .remember {
+      position: relative;
+      display: flex;
+      width: fit-content;
+      margin-bottom: 15px;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    
+    input[type="checkbox"] {
+      width:auto;
+      margin-bottom: 0px;
+    }
+
+    label {
+      margin: 5px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 7px;
+    }
   </style>
 </head>
 
@@ -136,13 +160,28 @@
       <div class="form-wrapper" id="form-wrapper">
 
         <div class="form-box login-form">
-          <div class="site-name">SITE_NAME.COM</div>
+          <div class="logo"><img src="../../public/assets/Logo.png"></div>
+          <div class="site-name">Resell.ru</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>
-          <form method="POST"></form>
-          <input type="email" name="email" placeholder="Введите email.." required>
-          <input type="password" name="password" placeholder="Введите пароль.." required>
-          <button type="submit">ВОЙТИ</button>
+          <?php if (isset($error)): ?>
+             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
+               <!-- <script>
+                  setTimeout(() => {
+                    document.getElementById('error-message').style.display = 'none';
+                  }, 5000);
+              </script> -->
+          <?php endif; ?>
+          <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <input type="password" name="password" placeholder="Введите пароль.." required>
+            <!-- вот тут выровнять -->
+            <div class="remember">
+              <input type="checkbox" name="remember_me" id="remember_me">
+              <label for="remember_me">Запомнить меня</label>
+            </div>
+
+            <button type="submit">ВОЙТИ</button>
           </form>
           <div class="register">
             <b><a href="#">Забыли пароль?</a></b>
@@ -151,15 +190,15 @@
         </div>
 
         <div class="form-box register-form">
-        <div class="site-name">SITE_NAME.COM</div>
+        <div class="site-name">Resell.ru</div>
         <h2>Создайте аккаунт</h2>
         <p>Заполните форму, чтобы зарегистрироваться</p>
-        <form method="POST">
-        <input type="username" name="username" placeholder="Имя пользователя.." />
-        <input type="email" name="email" placeholder="Введите email.." required>
-        <input type="password" name="password" placeholder="Введите пароль.." required>
-        <input type="phone"  name = "phone" placeholder="Номер телефона.." />
-        <button type="submit">Зарегистрироваться</button>
+        <form action="/register" method="POST">
+          <input type="username" name="username" placeholder="Имя пользователя.." />
+          <input type="email" name="email" placeholder="Введите email.." required>
+          <input type="password" name="password" placeholder="Введите пароль.." required>
+          <input type="phone"  name = "phone" placeholder="Номер телефона.." />
+          <button type="submit">Зарегистрироваться</button>
         </form>
         <div class="register">
           Уже есть аккаунт? <b><a  href="#" id="show-login">Войти</a></b>
