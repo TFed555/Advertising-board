@@ -3,12 +3,13 @@ session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
     'domain' => $_SERVER['HTTP_HOST'],
-    'secure' => true, 
+    'secure' => true,
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
 
 session_start();
+
 require __DIR__.'/../../vendor/autoload.php';
 require __DIR__.'/Database.php';
 require __DIR__.'/Router.php';

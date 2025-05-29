@@ -19,7 +19,7 @@
     }
 
     body {
-      background: url('/assets/bg.png') center/cover no-repeat;
+      background: url('/assets/bgs.png') center/cover no-repeat;
       position: relative;
     }
 

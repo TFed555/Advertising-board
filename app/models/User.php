@@ -33,6 +33,14 @@ class User {
         return $query->fetch();
     }
 
+    public static function expiresToken($user_id) {
+         $query = Database::query("
+            SELECT expires_at FROM remember_tokens
+            WHERE remember_tokens.user_id = ?
+        ", [$user_id]);
+        return $query->fetch();
+    }
+
     public static function updateRememberToken($userId, $token, $expires) {
         Database::query("DELETE FROM remember_tokens WHERE user_id = ?", [$userId]);
 

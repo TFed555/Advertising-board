@@ -4,6 +4,12 @@ require __DIR__.'/../models/User.php';
 class AuthController {
     public function login() {
         //??
+
+    if (isset($_SESSION['user_id'])) {
+        header('Location: /');
+        exit;
+    }
+
     $this->tryLoginByCookies();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -13,48 +19,6 @@ class AuthController {
         }
     }
 
-    // if (isset($_COOKIE['remember_user']) && !isset($_SESSION['user_id'])) {
-    //         $userData = json_decode($_COOKIE['remember_user'], true);
-    //         $user = User::findById($userData['id']);
-
-    //         if ($user && password_verify($userData['token'], $user['password'])) {
-    //             $_SESSION['user_id'] = $user['id'];
-    //             $_SESSION['user'] = $user;
-    //             header('Location: /');
-    //             exit;
-    //         }
-    //     }
-
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $email = $_POST['email'];
-    //         $password = $_POST['password'];
-    //         $rememberMe = isset($_POST['remember_me']);
-
-    //         $user = User::findByEmail($email);
-    //         //далее нужен password_verify($password, $user['password'])
-    //         if ($user && password_verify($password, $user['password'])) {
-    //             $_SESSION['user_id'] = $user['id'];
-    //             $currentUser = User::findById($user['id']);
-    //             $_SESSION['user'] = $currentUser;
-
-    //              if ($rememberMe) {
-    //                 $cookieValue = json_encode([
-    //                     'id' => $user['id'],
-    //                     'token' => $user['password'] // Используем хеш пароля как токен
-    //                 ]);
-    //                 setcookie('remember_user', $cookieValue, time() + 30 * 24 * 60 * 60, '/', '', false, true); // 30 дней
-    //             }
-
-    //             header('Location: /');
-    //             exit;
-    //         }
-    //         error_log("Email: $email, Password: $password");
-    //         error_log("User from DB: " . print_r($user, true));
-    //         error_log("Password verify result: " . password_verify($password, $user['password']));
-    //         $error = "Неверные данные";
-    //         die("Неверный пароль. Хеш " . password_hash($password, PASSWORD_DEFAULT));
-    //     }
-
         require __DIR__.'/../views/login.php';
     }
 
@@ -62,8 +26,8 @@ class AuthController {
          if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
             $token = $_COOKIE['remember_token'];
             $user = User::findByRememberToken($token);
-
-            if ($user && $user['token_expires'] > time()) {
+            $token_expires = User::expiresToken($user['id']);
+            if ($user && $token_expires > time()) {
                 $this->createUserSession($user);
                 header('Location: /');
                 exit;
