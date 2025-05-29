@@ -19,7 +19,8 @@
     }
 
     body {
-      background: url('/assets/bgs.png') center/cover no-repeat;
+      /* background: url('/assets/bg.png') center/cover no-repeat; */
+      background: url('../../public/assets/bg.png') center/cover no-repeat;
       position: relative;
     }
 
@@ -123,6 +124,29 @@
       flex-shrink: 0;
     }
 
+    .remember {
+      position: relative;
+      display: flex;
+      width: fit-content;
+      margin-bottom: 15px;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    input[type="checkbox"] {
+      width:auto;
+      margin-bottom: 0px;
+    }
+
+    label {
+      margin: 5px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 7px;
+    }
   </style>
 </head>
 
@@ -136,7 +160,8 @@
       <div class="form-wrapper" id="form-wrapper">
 
         <div class="form-box login-form">
-          <div class="site-name">SITE_NAME.COM</div>
+          <div class="logo"><img src="../../public/assets/Logo.png"></div>
+          <div class="site-name">Resell.ru</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>
           <?php if (isset($error)): ?>
@@ -151,7 +176,7 @@
             <input type="email" name="email" placeholder="Введите email.." required>
             <input type="password" name="password" placeholder="Введите пароль.." required>
             <!-- вот тут выровнять -->
-            <div class="form-group">
+            <div class="remember">
               <input type="checkbox" name="remember_me" id="remember_me">
               <label for="remember_me">Запомнить меня</label>
             </div>
@@ -165,7 +190,7 @@
         </div>
 
         <div class="form-box register-form">
-        <div class="site-name">SITE_NAME.COM</div>
+        <div class="site-name">Resell.ru</div>
         <h2>Создайте аккаунт</h2>
         <p>Заполните форму, чтобы зарегистрироваться</p>
         <form action="/register" method="POST">
