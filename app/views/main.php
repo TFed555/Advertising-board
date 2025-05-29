@@ -16,7 +16,14 @@
             <?php endforeach; ?>
         </ul>
     </section>
-    <a href= '/login'>Войти в личный кабинет</a>
+    <a href= '/#'>Войти в личный кабинет</a>
+
+    <?php if (isset($_SESSION['user_id'])): ?>
+    <div class="logout-section">
+        <a href="/logout" class="logout-btn">Выйти</a>
+     </div>
+    <?php endif; ?>
+
     <footer>
         <p>© <?= date('Y') ?> Все права защищены</p>
     </footer>

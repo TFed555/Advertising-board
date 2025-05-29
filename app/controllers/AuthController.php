@@ -26,6 +26,9 @@ class AuthController {
          if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
             $token = $_COOKIE['remember_token'];
             $user = User::findByRememberToken($token);
+            if ($user==false) {
+                return;
+            }
             $token_expires = User::expiresToken($user['id']);
             if ($user && $token_expires > time()) {
                 $this->createUserSession($user);
@@ -128,5 +131,7 @@ class AuthController {
 
         header('Location: /login');
         exit;
+
+        require __DIR__.'/../views/login.php';
     }
 }

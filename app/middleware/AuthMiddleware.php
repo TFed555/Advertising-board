@@ -8,7 +8,7 @@ class AuthMiddleware { public function handle() {
                 $user = User::findByRememberToken($_COOKIE['remember_token']);
                 if ($user && User::expiresToken($user['id']) > time()) {
                     $_SESSION['user_id'] = $user['id'];
-                    return; //  Авторизация успешна
+                    return; //Авторизация успешна
                 }
             }
 
