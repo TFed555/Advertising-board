@@ -184,12 +184,15 @@
             <button type="submit">ВОЙТИ</button>
           </form>
           <div class="register">
-            <b><a href="#">Забыли пароль?</a></b>
+              <b><a href="#" id="show-repair">Забыли пароль?</a></b>
+          </div>
+          <div class="register">
             <br>Нет аккаунта? <b><a href="#" id="show-register">Зарегистрироваться</a></b>
           </div>
         </div>
 
         <div class="form-box register-form">
+        <div class="logo"><img src="/assets/Logo.png"></div>
         <div class="site-name">Resell.ru</div>
         <h2>Создайте аккаунт</h2>
         <p>Заполните форму, чтобы зарегистрироваться</p>
@@ -204,6 +207,23 @@
           Уже есть аккаунт? <b><a  href="#" id="show-login">Войти</a></b>
         </div>
       </div>
+
+        <div class="form-box repair-form">
+          <div class="logo"><img src="/assets/Logo.png"></div>
+          <div class="site-name">Resell.ru</div>
+          <h2>Введите адрес электронной почты</h2>
+          <p>Стобы получить ссылку на восстановление пароля</p>
+          <?php if (isset($error)): ?>
+             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
+          <?php endif; ?>
+          <form action="/repair" method="POST">
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <button type="submit">Получить</button>
+          <div class="register">
+              <a  href="#" id="show-login-1">Ко входу</a></b>
+          </div>
+          </form>
+          </div>
       </div>
     </div>
   </div>
@@ -215,12 +235,23 @@
     const formWrapper = document.getElementById('form-wrapper');
     const showRegister = document.getElementById('show-register');
     const showLogin = document.getElementById('show-login');
+    const showRepair = document.getElementById('show-repair');
+
+    const showLogin1 = document.getElementById('show-login-1');
     showRegister.onclick = () => {
       formWrapper.style.transform = 'translateX(-100%)';
     };
 
     showLogin.onclick = () => {
       formWrapper.style.transform = 'translateX(0)';
+    };
+
+    showRepair.onclick = () => {
+      formWrapper.style.transform = 'translateX(-200%)';
+    };
+
+    showLogin1.onclick = () => {
+      formWrapper.style.transform = 'translateX(0.09%)';
     };
   </script>
 </html>

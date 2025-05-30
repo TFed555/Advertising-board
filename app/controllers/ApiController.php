@@ -15,8 +15,6 @@ class ApiController {
 
         $category = trim($data['category']);
 
-
-
         $slug = strtolower(preg_replace('/[^a-zA-Zа-яА-Я0-9]+/u', '-', $category));
         $slug = trim($slug, '-');
 

@@ -60,9 +60,6 @@ class AuthController {
 
     }
 
-
-
-
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['username'];
@@ -97,7 +94,7 @@ class AuthController {
         $token = bin2hex(random_bytes(32));
         $expires = time() + 30 * 24 * 60 * 60;
 
-        // Сохраняем токен в БД
+        //сохраняем токен в бд
         User::updateRememberToken($userId, $token, $expires);
 
         try {
@@ -116,7 +113,7 @@ class AuthController {
 
 
      public function logout() {
-        // Удаление сессии
+        //удаление сессии
        if (isset($_COOKIE['remember_token'])) {
             User::clearRememberToken($_SESSION['user_id']);
             setcookie('remember_token', '', [
@@ -125,7 +122,7 @@ class AuthController {
             ]);
         }
 
-        // Очищаем сессию
+        //очищение сессии
         $_SESSION = [];
         session_destroy();
 
@@ -134,4 +131,5 @@ class AuthController {
 
         require __DIR__.'/../views/login.php';
     }
+
 }

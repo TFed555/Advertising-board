@@ -54,4 +54,10 @@ class User {
     public static function clearRememberToken($userId) {
         Database::query("DELETE FROM remember_tokens WHERE user_id = ?", [$userId]);
     }
+
+
+    //для восстановления пароля
+    public static function updateResetToken($token, $user_id) {
+        Database::query('Update reset_tokens set token = ? where user_id = ?',[$token, $user_id]);
+    }
 }
