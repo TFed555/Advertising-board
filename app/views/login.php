@@ -19,8 +19,8 @@
     }
 
     body {
-      /* background: url('/assets/bg.png') center/cover no-repeat; */
-      background: url('../../public/assets/bg.png') center/cover no-repeat;
+      background: url('/assets/bg.png') center/cover no-repeat;
+      /* background: url('../../public/assets/bg.png') center/cover no-repeat; */
       position: relative;
     }
 
@@ -65,7 +65,7 @@
       margin-bottom: 30px;
       color: #333;
     }
-    
+
     input {
       width: 100%;
       padding: 12px;
@@ -132,9 +132,9 @@
       margin-left: 5px;
       margin-right: 5px;
     }
-    
+
     input[type="checkbox"] {
-      width:auto;
+      width: auto;
       margin-bottom: 0px;
     }
 
@@ -160,13 +160,16 @@
       <div class="form-wrapper" id="form-wrapper">
 
         <div class="form-box login-form">
-          <div class="logo"><img src="../../public/assets/Logo.png"></div>
+          <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+          <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
           <div class="site-name">Resell.ru</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>
           <?php if (isset($error)): ?>
-             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
-               <!-- <script>
+          <p id="error-message" style="color: red;">
+            <?= htmlspecialchars($error) ?>
+          </p>
+          <!-- <script>
                   setTimeout(() => {
                     document.getElementById('error-message').style.display = 'none';
                   }, 5000);
@@ -184,26 +187,45 @@
             <button type="submit">ВОЙТИ</button>
           </form>
           <div class="register">
-            <b><a href="#">Забыли пароль?</a></b>
+            <b><a href="#" id="show-repair">Забыли пароль?</a></b>
             <br>Нет аккаунта? <b><a href="#" id="show-register">Зарегистрироваться</a></b>
           </div>
         </div>
 
         <div class="form-box register-form">
-        <div class="site-name">Resell.ru</div>
-        <h2>Создайте аккаунт</h2>
-        <p>Заполните форму, чтобы зарегистрироваться</p>
-        <form action="/register" method="POST">
-          <input type="username" name="username" placeholder="Имя пользователя.." />
-          <input type="email" name="email" placeholder="Введите email.." required>
-          <input type="password" name="password" placeholder="Введите пароль.." required>
-          <input type="phone"  name = "phone" placeholder="Номер телефона.." />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-        <div class="register">
-          Уже есть аккаунт? <b><a  href="#" id="show-login">Войти</a></b>
+          <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+          <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
+          <div class="site-name">Resell.ru</div>
+          <h2>Создайте аккаунт</h2>
+          <p>Заполните форму, чтобы зарегистрироваться</p>
+          <form action="/register" method="POST">
+            <input type="username" name="username" placeholder="Имя пользователя.." />
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <input type="password" name="password" placeholder="Введите пароль.." required>
+            <input type="phone" name="phone" placeholder="Номер телефона.." />
+            <button type="submit">Зарегистрироваться</button>
+          </form>
+          <div class="register">
+            Уже есть аккаунт? <b><a href="#" id="show-login">Войти</a></b>
+          </div>
         </div>
-      </div>
+
+        <div class="form-box repair-form">
+          <div class="logo"><img src="/assets/Logo.png"></div>
+          <div class="site-name">Resell.ru</div>
+          <h2>Введите адрес электронной почты</h2>
+          <p>Стобы получить ссылку на восстановление пароля</p>
+          <?php if (isset($error)): ?>
+             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
+          <?php endif; ?>
+          <form action="/repair" method="POST">
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <button type="submit">Получить</button>
+          <div class="register">
+              <a  href="#" id="show-login-1">Ко входу</a></b>
+          </div>
+          </form>
+          </div>
       </div>
     </div>
   </div>
@@ -215,6 +237,9 @@
     const formWrapper = document.getElementById('form-wrapper');
     const showRegister = document.getElementById('show-register');
     const showLogin = document.getElementById('show-login');
+    const showRepair = document.getElementById('show-repair');
+
+    const showLogin1 = document.getElementById('show-login-1');
     showRegister.onclick = () => {
       formWrapper.style.transform = 'translateX(-100%)';
     };
@@ -222,5 +247,14 @@
     showLogin.onclick = () => {
       formWrapper.style.transform = 'translateX(0)';
     };
+
+    showRepair.onclick = () => {
+      formWrapper.style.transform = 'translateX(-200%)';
+    };
+
+    showLogin1.onclick = () => {
+      formWrapper.style.transform = 'translateX(0.09%)';
+    };
   </script>
+
 </html>
