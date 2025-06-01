@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Доска объявлений</title>
     <style>
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            /* background: url('../../public/assets/bg_main.png') no-repeat center center fixed; */
             background: url('/assets/bg_main.png') no-repeat center center fixed;
             background-size: cover;
             color: #000;
@@ -26,6 +26,8 @@
 
         /* HEADER */
         .header {
+            display: flex;
+            /* background: url('../../public/assets/header_main.png') no-repeat center; */
             background: url('/assets/header_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
@@ -33,7 +35,7 @@
             font-size: 20px;
             font-weight: bold;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
+            margin-bottom: 20px;
         }
 
         .header-buttons {
@@ -43,7 +45,7 @@
         }
 
         .header-text {
-            margin-left: 240px;
+            margin-left: 150px;
         }
 
         /* .logout-btn {
@@ -82,7 +84,7 @@
         /* Поисковая строка */
         .search-section {
             text-align: center;
-            padding: 20px;
+            padding-bottom: 20px;
         }
 
         .search-input {
@@ -107,6 +109,10 @@
             width: 130px;
         }
 
+        .search-button:hover {
+            transform: scale(1.05);
+        }
+
         /* Сетка категорий */
         .category-grid {
             display: grid;
@@ -121,14 +127,32 @@
             box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
             background: linear-gradient(45deg, #e92525 0%, #920f0f 73.56%);
             border-radius: 20px;
-            padding: 70px;
             color: white;
             text-align: justify;
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            width: 200px;
-            padding-bottom: 40px;
+            width: 270px;
+            height: 170px;
+            display: flex;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-text {
+            width: 50%;
+            height: 100%;
+            align-items: center;
+            margin-top: 20%;
+            margin-left: 20px;
+            font-size: large;
+        }
+
+        .category-png {
+            width: 50%;
+            height: 100%;
         }
 
         .category-card img {
@@ -147,10 +171,11 @@
             padding: 20px;
         }
 
-        .listings-title {
-            font-size: 20px;
+        .pred-title {
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .listing-grid {
@@ -170,6 +195,10 @@
             text-align: center;
         }
 
+        .listing-card:hover {
+            transform: scale(1.02);
+        }
+
         .listing-card img {
             width: 100%;
             height: 120px;
@@ -179,6 +208,7 @@
 
         /* FOOTER */
         .footer {
+            /* background: url('../../public/assets/footer_main.png') no-repeat center; */
             background: url('/assets/footer_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
@@ -205,6 +235,11 @@
             justify-content: center;
             align-items: center;
         }
+
+        .logo {
+
+            padding-bottom: 7px;
+        }
     </style>
 </head>
 
@@ -213,56 +248,78 @@
         <div class="container">
             <!-- HEADER -->
             <div class="header">
+                <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
+                 <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
                 <div class="header-text">
                     Всё что нужно - ты найдёшь у нас! <br />
                     Тысячи продавцов и тысячи покупателей!
                 </div>
                 <div class="header-buttons">
                     <button>Подать объявление</button>
-
                     <button>Личный кабинет</button>
-
                     <?php if (isset($_SESSION['user_id'])): ?>
-
-                    <button class="logout-btn"><a href="/logout">Выйти</a></button>
-
+                    <button class="logout-btn"><a href="/logout"
+                            style="color:red;text-decoration: none;">Выйти</a></button>
                     <?php endif; ?>
                 </div>
             </div>
 
+            <div class="pred-title">Ищите нужные товары</div>
             <!-- Поисковик -->
             <div class="search-section">
-                <input class="search-input" type="text" placeholder="Ищите нужные товары" />
+                <input class="search-input" type="text" placeholder="Поиск.." />
                 <button class="search-button">Найти</button>
             </div>
 
+            <div class="pred-title">Либо сразу выбирайте нужную категорию</div>
             <!-- Категории -->
             <div class="category-grid">
-                <div class="category-card" data-category="1">
-                    <div>
-                        <p>Машины</p>
-                    </div><img src="/assets/car.png" alt="Машины" width="90" height="90" />
+                <div class="category-card">
+                    <div class="category-text" data-category="1">
+                        Автомобили<br>и<br>запчасти
+                    </div>
+                    <div class="category-png"><img src="/assets/car.png" alt="Машины" width="90"
+                            height="90" /></div>
                 </div>
                 <div class="category-card" data-category="2">
-                    <p>Квартиры<br> и <br>дачи </p><img src="/assets/kottedzh.png" alt="Квартиры" />
+                    <div class="category-text">
+                        Квартиры<br> и <br>дачи
+                    </div>
+                    <div class="category-png"><img src="/assets/kottedzh.png" alt="Квартиры" /></div>
                 </div>
                 <div class="category-card" data-category="3">
-                    <p>Одежда<br> и <br>обувь </p><img src="/assets/odezhda.png" alt="Одежда" />
+                    <div class="category-text">
+                        Одежда<br> и <br>обувь
+                    </div>
+                    <div class="category-png"><img src="/assets/odezhda.png" alt="Одежда" /></div>
                 </div>
                 <div class="category-card" data-category="4">
-                    <p>Всё<br> для<br> дома </p><img src="/assets/divan.png" alt="Дом" />
+                    <div class="category-text" style="margin-left: 20%;">
+                        Всё<br> для<br> дома
+                    </div>
+                    <div class="category-png">
+                        <img src="/assets/divan.png" alt="Дом" />
+                    </div>
                 </div>
                 <div class="category-card" data-category="5">
-                    <p>Красота<br> и<br> здоровье </p><img src="/assets/beauty.png" alt="Красота" />
+                    <div class="category-text">
+                        Красота<br> и<br> здоровье
+                    </div>
+                    <div class="category-png">
+                        <img src="/assets/beauty.png" alt="Красота" />
+                    </div>
                 </div>
                 <div class="category-card" data-category="6">
-                    <p>Электроника<br> и<br> техника </p><img src="/assets/compik.png" alt="Техника" />
+                    <div class="category-text" style="margin-left: 15px;">
+                        Электроника<br> и<br> техника
+                    </div>
+                    <div class="category-png"><img src="/assets/compik.png" alt="Техника" /></div>
                 </div>
             </div>
 
             <!-- Свежие объявления -->
             <div class="listings">
-                <div class="listings-title">Свежие объявления</div>
+                <div class="pred-title">Свежие объявления</div>
                 <div class="listing-grid">
                     <div class="listing-card">
                         <img src="/assets/bananchik.png" alt="Объявление" />
@@ -340,17 +397,7 @@
     });
 });
         </script>
-    <!-- Закомментированный JS (пример подключения к серверу) -->
-    <!--
-  <script>
-    async function fetchListings() {
-      const response = await fetch('/api/listings');
-      const data = await response.json();
-      // renderListings(data);
-    }
-    fetchListings();
-  </script>
-  -->
+
 </body>
 
 </html>

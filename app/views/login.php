@@ -19,8 +19,8 @@
     }
 
     body {
-      /* background: url('/assets/bg.png') center/cover no-repeat; */
       background: url('/assets/bg.png') center/cover no-repeat;
+      /* background: url('../../public/assets/bg.png') center/cover no-repeat; */
       position: relative;
     }
 
@@ -134,7 +134,7 @@
     }
 
     input[type="checkbox"] {
-      width:auto;
+      width: auto;
       margin-bottom: 0px;
     }
 
@@ -160,13 +160,16 @@
       <div class="form-wrapper" id="form-wrapper">
 
         <div class="form-box login-form">
-          <div class="logo"><img src="/assets/Logo.png"></div>
+          <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+          <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
           <div class="site-name">Resell.ru</div>
           <h2>Добро пожаловать!</h2>
           <p>Войдите или зарегистрируйтесь<br>чтобы продолжить!</p>
           <?php if (isset($error)): ?>
-             <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
-               <!-- <script>
+          <p id="error-message" style="color: red;">
+            <?= htmlspecialchars($error) ?>
+          </p>
+          <!-- <script>
                   setTimeout(() => {
                     document.getElementById('error-message').style.display = 'none';
                   }, 5000);
@@ -184,29 +187,28 @@
             <button type="submit">ВОЙТИ</button>
           </form>
           <div class="register">
-              <b><a href="#" id="show-repair">Забыли пароль?</a></b>
-          </div>
-          <div class="register">
+            <b><a href="#" id="show-repair">Забыли пароль?</a></b>
             <br>Нет аккаунта? <b><a href="#" id="show-register">Зарегистрироваться</a></b>
           </div>
         </div>
 
         <div class="form-box register-form">
-        <div class="logo"><img src="/assets/Logo.png"></div>
-        <div class="site-name">Resell.ru</div>
-        <h2>Создайте аккаунт</h2>
-        <p>Заполните форму, чтобы зарегистрироваться</p>
-        <form action="/register" method="POST">
-          <input type="username" name="username" placeholder="Имя пользователя.." />
-          <input type="email" name="email" placeholder="Введите email.." required>
-          <input type="password" name="password" placeholder="Введите пароль.." required>
-          <input type="phone"  name = "phone" placeholder="Номер телефона.." />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-        <div class="register">
-          Уже есть аккаунт? <b><a  href="#" id="show-login">Войти</a></b>
+          <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+          <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
+          <div class="site-name">Resell.ru</div>
+          <h2>Создайте аккаунт</h2>
+          <p>Заполните форму, чтобы зарегистрироваться</p>
+          <form action="/register" method="POST">
+            <input type="username" name="username" placeholder="Имя пользователя.." />
+            <input type="email" name="email" placeholder="Введите email.." required>
+            <input type="password" name="password" placeholder="Введите пароль.." required>
+            <input type="phone" name="phone" placeholder="Номер телефона.." />
+            <button type="submit">Зарегистрироваться</button>
+          </form>
+          <div class="register">
+            Уже есть аккаунт? <b><a href="#" id="show-login">Войти</a></b>
+          </div>
         </div>
-      </div>
 
         <div class="form-box repair-form">
           <div class="logo"><img src="/assets/Logo.png"></div>
@@ -254,4 +256,5 @@
       formWrapper.style.transform = 'translateX(0.09%)';
     };
   </script>
+
 </html>
