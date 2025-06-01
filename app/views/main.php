@@ -48,19 +48,6 @@
             margin-left: 150px;
         }
 
-        /* .logout-btn {
-        margin-left: 10px;
-        padding: 8px 16px;
-        border-radius: 15px;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        background-color: white;
-        color: red;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: transform 0.2s;
-        font-size: 13px;
-    } */
         .header-buttons button {
             margin-left: 10px;
             padding: 8px 16px;
@@ -74,18 +61,15 @@
             transition: transform 0.2s;
         }
 
-        /* .logout-btn:hover {
-      transform: scale(1.05);
-    } */
         .header-buttons button:hover {
             transform: scale(1.05);
         }
 
         /* Поисковая строка */
-        .search-section {
+        /* .search-section {
             text-align: center;
             padding-bottom: 20px;
-        }
+        } */
 
         .search-input {
             width: 60%;
@@ -240,46 +224,141 @@
 
             padding-bottom: 7px;
         }
+
+        .search-section {
+            text-align: center;
+            padding-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .menu-toggle {
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            margin-left: 460px;
+        }
+
+        .side-menu {
+            position: absolute;
+            
+            right: 0px;
+            width: 220px;
+            background-color: #fff;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            transform: translateX(10%);
+            z-index: 10;
+            padding: 20px 15px;
+            border-radius: 10px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .side-menu.open {
+            transform: translateX(0%);
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .side-menu-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .side-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-menu-list li {
+            margin-bottom: 12px;
+        }
+
+        .side-menu-list a {
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
+
+    <input type="checkbox" id="nav-toggle" hidden>
+
     <div class="overlay">
+
         <div class="container">
             <!-- HEADER -->
             <div class="header">
                 <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-                 <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+                <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
                 <div class="header-text">
                     Всё что нужно - ты найдёшь у нас! <br />
                     Тысячи продавцов и тысячи покупателей!
                 </div>
-                <div class="header-buttons">
+                <button id="menuToggle" class="menu-toggle">☰</button>
+                <!-- <div class="header-buttons">
                     <button>Подать объявление</button>
                     <button>Личный кабинет</button>
                     <?php if (isset($_SESSION['user_id'])): ?>
                     <button class="logout-btn"><a href="/logout"
                             style="color:red;text-decoration: none;">Выйти</a></button>
                     <?php endif; ?>
-                </div>
+                </div> -->
             </div>
+
 
             <div class="pred-title">Ищите нужные товары</div>
             <!-- Поисковик -->
             <div class="search-section">
+                
                 <input class="search-input" type="text" placeholder="Поиск.." />
                 <button class="search-button">Найти</button>
+
+                <!-- Боковое меню -->
+                <div id="sideMenu" class="side-menu">
+                    <div class="side-menu-header">
+                        <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
+                        <span>Resell.ru</span>
+                    </div>
+                    <ul class="side-menu-list">
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Подать объявление</a></li>
+                        <li><a href="#">Личный кабинет</a></li>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a href="/logout">Выйти</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
+
 
             <div class="pred-title">Либо сразу выбирайте нужную категорию</div>
             <!-- Категории -->
             <div class="category-grid">
-                <div class="category-card">
-                    <div class="category-text" data-category="1">
+                <div class="category-card" data-category="1">
+                    <div class="category-text">
                         Автомобили<br>и<br>запчасти
                     </div>
-                    <div class="category-png"><img src="/assets/car.png" alt="Машины" width="90"
-                            height="90" /></div>
+                    <div class="category-png"><img src="/assets/car.png" alt="Машины" width="90" height="90" /></div>
                 </div>
                 <div class="category-card" data-category="2">
                     <div class="category-text">
@@ -371,32 +450,38 @@
         </div>
     </div>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const cards = document.querySelectorAll(".category-card");
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll(".category-card");
 
-    cards.forEach(card => {
-        card.addEventListener("click", function () {
-            const category = card.getAttribute("data-category");
+            cards.forEach(card => {
+                card.addEventListener("click", function () {
+                    const category = card.getAttribute("data-category");
 
-            fetch("/api/category", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ category })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Ответ от сервера:", data);
-                if (data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                }
-            })
-            .catch(error => console.error("Ошибка:", error));
+                    fetch("/api/category", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ category })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("Ответ от сервера:", data);
+                            if (data.redirect_url) {
+                                window.location.href = data.redirect_url;
+                            }
+                        })
+                        .catch(error => console.error("Ошибка:", error));
+                });
+            });
         });
-    });
-});
-        </script>
+        
+        document.getElementById("menuToggle").addEventListener("click", function () {
+            document.getElementById("sideMenu").classList.toggle("open");
+        });
+
+
+    </script>
 
 </body>
 
