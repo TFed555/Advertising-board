@@ -1,5 +1,4 @@
 <?php
-// require __DIR__.'/../models/User.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -52,7 +51,52 @@ class RepairController {
 }
 
     public function reset() {
+        ob_start();
+        $address = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $query_str = parse_url($address, PHP_URL_QUERY);
+        parse_str($query_str, $query_params);
+        $token = $query_params['token'];
+        $expiredTime = User::getExpiredTime($token);
+        $currentTime = date("y-m-d h:i:s");
+        // echo $token;
+        // echo $expiredTime['expires_at'];
+        // echo "\n";
+        // echo $currentTime;
+        // echo "\n";
+        $expiredTime = DateTime::createFromFormat('Y-m-d H:i:s', $expiredTime['expires_at'])->format('Y-m-d H:i:s');
+        $currentTime = DateTime::createFromFormat('y-m-d H:i:s', $currentTime)->format('Y-m-d H:i:s');
+        // echo $expiredTime;
+        // echo "\n";
+        // echo $currentTime;
 
+        if ($expiredTime > $currentTime) {
+            User::deleteResetToken($token);
+            die('Время ссылки истекло');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+            $oldPassword = User::changePassword($token, $newPassword);
+
+            if ($newPassword !== $confirmPassword) {
+                $error = 'Пароли не совпадают';
+                require __DIR__.'/../views/reset.php';
+                return;
+            }
+
+            $success = User::changePassword($token, $newPassword);
+
+            if ($success) {
+                User::deleteResetToken($token);
+                ob_clean();
+                header('Location: /login');
+                exit;
+            }
+            else {
+                $error = 'Пароль не должен совпадать с предыдущим';
+            }
+    }
 
         require __DIR__.'/../views/reset.php';
     }

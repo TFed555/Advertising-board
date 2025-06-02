@@ -1,5 +1,6 @@
 <?php
 require __DIR__.'/../models/User.php';
+require __DIR__.'/../models/UserMenu.php';
 
 class AuthController {
     public function login() {
@@ -69,6 +70,7 @@ class AuthController {
 
             try {
                 $userId = User::create($name, $email, $phone, $password);
+                UserMenu::createMenuConfig($userId);
                 $_SESSION['user_id'] = $userId;
                 header('Location: /login');
                 exit;

@@ -10,6 +10,7 @@ $router->add('GET', '/categories/:slug', 'CategoryController@show');
 $router->add('POST', '/login', 'AuthController@login');
 $router->add('POST', '/register', 'AuthController@register');
 $router->add('POST', '/repair', 'RepairController@repair');
+$router->add('POST', '/reset', 'RepairController@reset');
 
 //для api запросов
 $router->add('POST', '/api/category', 'ApiController@handleCategory');

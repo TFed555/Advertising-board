@@ -44,7 +44,7 @@ class User {
     public static function updateRememberToken($userId, $token, $expires) {
         Database::query("DELETE FROM remember_tokens WHERE user_id = ?", [$userId]);
 
-        //Добавляем новый токен
+        //добавляем новый токен
         $query = Database::query("
             INSERT INTO remember_tokens (user_id, token, expires_at)
             VALUES (?, ?, ?)
@@ -58,6 +58,27 @@ class User {
 
     //для восстановления пароля
     public static function updateResetToken($token, $user_id) {
-        Database::query('Update reset_tokens set token = ? where user_id = ?',[$token, $user_id]);
+        Database::query('Replace into reset_tokens (token, user_id, expires_at) values(?, ?, ?)',[$token, $user_id,
+         date('Y-m-d H:i:s', time() + 10 * 60)]);
+    }
+
+    public static function changePassword($token, $newPassword) {
+        $user_id = Database::query('Select user_id from reset_tokens where token = ?', [$token])->fetch(PDO::FETCH_ASSOC);
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $oldPassword = Database::query('Select password from users where id = ?', [$user_id['user_id']])->fetch(PDO::FETCH_ASSOC)['password'];
+        if (password_verify($newPassword, $oldPassword)) {
+            return false;
+        }
+        Database::query('Update users set password = ? where id = ?', [$hashedPassword, $user_id['user_id']]);
+        return true;
+    }
+
+    public static function getExpiredTime($token) {
+        $value = Database::query('Select expires_at from reset_tokens where token = ?', [$token])->fetch();
+        return $value ? $value : null;
+    }
+
+    public static function deleteResetToken($token) {
+        Database::query('Delete from reset_tokens where token = ?', [$token]);
     }
 }
