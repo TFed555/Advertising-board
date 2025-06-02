@@ -12,7 +12,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       /* background: url('../../public/assets/bg_main.png') no-repeat center center fixed; */
-      background: url('./assets/bg_main.png') no-repeat center center fixed;
+      background: url('/assets/bg_main.png') no-repeat center center fixed;
       background-size: cover;
       color: #000;
     }
@@ -29,7 +29,7 @@
     .header {
       display: flex;
       /* background: url('../../public/assets/header_main.png') no-repeat center; */
-      background: url('./assets/header_main.png') no-repeat center;
+      background: url('/assets/header_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
       color: white;
@@ -44,12 +44,12 @@
     }
 
     .pred-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-    
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
 
     /* 🔴 БЛОК ДАННЫХ ПОЛЬЗОВАТЕЛЯ */
 
@@ -182,7 +182,8 @@
 
     /* 🟣 КНОПКА СОХРАНИТЬ */
 
-    .save-btn {
+    .save-btn,
+    .add-btn {
       display: block;
       margin: 30px auto 10px;
       padding: 12px 30px;
@@ -215,7 +216,7 @@
 
     .footer {
       /* background: url('../../public/assets/footer_main.png') no-repeat center; */
-      background: url('./assets/footer_main.png') no-repeat center;
+      background: url('/assets/footer_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
       text-align: center;
@@ -250,85 +251,86 @@
       flex-shrink: 0;
       margin-left: 460px;
     }
+
     .side-menu {
-            position: absolute;
-            right: 160px;
-            top:60px;
-            width: 220px;
-            background-color: #fff;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            transform: translateX(10%);
-            z-index: 10;
-            padding: 20px 15px;
-            border-radius: 10px;
-            pointer-events: none;
-            opacity: 0;
-        }
+      position: absolute;
+      right: 160px;
+      top: 60px;
+      width: 220px;
+      background-color: #fff;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      transform: translateX(10%);
+      z-index: 10;
+      padding: 20px 15px;
+      border-radius: 10px;
+      pointer-events: none;
+      opacity: 0;
+    }
 
-        .side-menu.open {
-            transform: translateX(0%);
-            pointer-events: auto;
-            opacity: 1;
-        }
+    .side-menu.open {
+      transform: translateX(0%);
+      pointer-events: auto;
+      opacity: 1;
+    }
 
-        .side-menu-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+    .side-menu-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
 
-        .side-menu-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .side-menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        .side-menu-list li {
-            margin-bottom: 12px;
-        }
+    .side-menu-list li {
+      margin-bottom: 12px;
+    }
 
-        .side-menu-list a {
-            text-decoration: none;
-            color: red;
-            font-weight: bold;
-        }
-        .listings {
-            padding: 20px;
-        }
+    .side-menu-list a {
+      text-decoration: none;
+      color: red;
+      font-weight: bold;
+    }
+
+    .listings {
+      padding: 20px;
+    }
 
     .listing-grid {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
 
-        }
+    }
 
-        .listing-card {
-            flex: 0 0 200px;
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
-            text-align: center;
-        }
+    .listing-card {
+      flex: 0 0 200px;
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 5px 5px 4px 0 rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
 
-        .listing-card:hover {
-            transform: scale(1.02);
-        }
+    .listing-card:hover {
+      transform: scale(1.02);
+    }
 
-        .listing-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
+    .listing-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
@@ -337,7 +339,7 @@
     <div class="container">
       <div class="header">
         <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-        <div class="logo"><img src="./assets/Logo.png" style="width: 80px; height: 30px;"></div>
+        <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
         <div class="header-text">
           Всё что нужно - ты найдёшь у нас! <br />
           Тысячи продавцов и тысячи покупателей!
@@ -355,40 +357,40 @@
       <div class="pred-title">Личный кабинет</div>
       <div class="user-info">
         <div class="user-photo">
-          <img src="./assets/compik.png" alt="User Photo" />
+          <img src="/assets/compik.png" alt="User Photo" />
         </div>
         <div class="user-fields">
           <div class="user-field">
             <label>Логин</label>
-            <input type="text" value="Test_test_test" readonly />
+            <input type="text" value="Test_test_test" />
             <button class="edit-btn">Изменить</button>
           </div>
           <div class="user-field">
             <label>Имя</label>
-            <input type="text" value="Test_test_test" readonly />
+            <input type="text" value="Test_test_test" />
             <button class="edit-btn">Изменить</button>
           </div>
           <div class="user-field">
             <label>Номер телефона</label>
-            <input type="text" value="Test_test_test" readonly />
+            <input type="text" value="Test_test_test" />
             <button class="edit-btn">Изменить</button>
           </div>
         </div>
         <!-- Боковое меню -->
-                <div id="sideMenu" class="side-menu">
-                    <div class="side-menu-header">
-                        <img src="./assets/Logo.png" alt="Логотип" width="50" height="20">
-                        <span>Resell.ru</span>
-                    </div>
-                    <ul class="side-menu-list">
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Подать объявление</a></li>
-                        <li><a href="#">Личный кабинет</a></li>
-                        <?php if (isset($_SESSION['user_id'])): ?>
-                        <li><a href="/logout">Выйти</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
+        <div id="sideMenu" class="side-menu">
+          <div class="side-menu-header">
+            <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
+            <span>Resell.ru</span>
+          </div>
+          <ul class="side-menu-list">
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Подать объявление</a></li>
+            <li><a href="#">Личный кабинет</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <li><a href="/logout">Выйти</a></li>
+            <?php endif; ?>
+          </ul>
+        </div>
       </div>
 
       <div class="menu-settings">
@@ -417,52 +419,52 @@
 
       <button class="save-btn" id="saveBtn" disabled>Сохранить</button>
       <div class="message" id="message">Настройки сохранены</div>
-      
+      <button class="add-btn" id="addBtn" disabled>Добавить объявление</button>
       <div class="listings">
-                <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
-                <div class="listing-grid">
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="./assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                </div>
-            </div>
+        <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
+        <div class="listing-grid">
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+          <div class="listing-card">
+            <img src="/assets/bananchik.png" alt="Объявление" />
+            <div>Автомобиль BANANCHIK</div>
+            <div>900 000 руб.</div>
+          </div>
+        </div>
+      </div>
 
       <div class="footer">
         &copy; 2025. Все права защищены.
@@ -553,8 +555,8 @@
     };
 
     document.getElementById("menuToggle").addEventListener("click", function () {
-            document.getElementById("sideMenu").classList.toggle("open");
-        });
+      document.getElementById("sideMenu").classList.toggle("open");
+    });
   </script>
 </body>
 
