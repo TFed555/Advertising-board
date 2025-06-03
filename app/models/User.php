@@ -22,6 +22,12 @@ class User {
         return $query->fetch();
     }
 
+    public static function updateProfile($name, $email, $phone, $Id) {
+        Database::query('Update users set name = ?, email = ?, phone = ? where id = ?',
+                [$name, $email, $phone, $Id]);
+        return self::findById($Id);
+    }
+
     //Методы для работы с cookies
 
     public static function findByRememberToken($token) {

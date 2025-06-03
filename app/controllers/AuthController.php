@@ -1,10 +1,8 @@
 <?php
 require __DIR__.'/../models/User.php';
-require __DIR__.'/../models/UserMenu.php';
 
 class AuthController {
     public function login() {
-        //??
 
     if (isset($_SESSION['user_id'])) {
         header('Location: /');
@@ -71,7 +69,6 @@ class AuthController {
             try {
                 $userId = User::create($name, $email, $phone, $password);
                 UserMenu::createMenuConfig($userId);
-                $_SESSION['user_id'] = $userId;
                 header('Location: /login');
                 exit;
             } catch (PDOException $e) {
@@ -87,7 +84,8 @@ class AuthController {
         $_SESSION['user'] = [
             'id' => $user['id'],
             'name' => $user['name'],
-            'email' => $user['email']
+            'email' => $user['email'],
+            'phone' => $user['phone']
         ];
     }
 

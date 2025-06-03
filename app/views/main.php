@@ -251,7 +251,7 @@
 
         .side-menu {
             position: absolute;
-            
+
             right: 0px;
             width: 220px;
             background-color: #fff;
@@ -329,7 +329,7 @@
             <div class="pred-title">Ищите нужные товары</div>
             <!-- Поисковик -->
             <div class="search-section">
-                
+
                 <input class="search-input" type="text" placeholder="Поиск.." />
                 <button class="search-button">Найти</button>
 
@@ -340,9 +340,9 @@
                         <span>Resell.ru</span>
                     </div>
                     <ul class="side-menu-list">
-                        <li><a href="#">Главная</a></li>
+                        <li><a href="/">Главная</a></li>
                         <li><a href="#">Подать объявление</a></li>
-                        <li><a href="#">Личный кабинет</a></li>
+                        <li><a href="/profile">Личный кабинет</a></li>
                         <?php if (isset($_SESSION['user_id'])): ?>
                         <li><a href="/logout">Выйти</a></li>
                         <?php endif; ?>
@@ -451,31 +451,45 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const cards = document.querySelectorAll(".category-card");
+        const cards = document.querySelectorAll(".category-card");
 
-            cards.forEach(card => {
-                card.addEventListener("click", function () {
-                    const category = card.getAttribute("data-category");
+        cards.forEach(card => {
+        card.addEventListener("click", async function() {
+            const category = this.getAttribute("data-category");
 
-                    fetch("/api/category", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ category })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Ответ от сервера:", data);
-                            if (data.redirect_url) {
-                                window.location.href = data.redirect_url;
-                            }
-                        })
-                        .catch(error => console.error("Ошибка:", error));
+            try {
+                const response = await fetch("/api/category", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json",
+                    "Accept": "application/json" },
+                    body: JSON.stringify({ category })
                 });
-            });
+
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Ожидался JSON, но получено:', text);
+                    throw new Error('Сервер вернул не JSON');
+                }
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Ошибка сервера');
+                }
+
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                }
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при переходе в категорию');
+            }
+                    });
+                });
         });
-        
+
         document.getElementById("menuToggle").addEventListener("click", function () {
             document.getElementById("sideMenu").classList.toggle("open");
         });

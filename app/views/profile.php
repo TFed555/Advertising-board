@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Личный кабинет</title>
   <style>
-    /* 🔵 ОБЩИЙ СТИЛЬ */
+    /* ОБЩИЙ СТИЛЬ */
 
     body {
       margin: 0;
@@ -51,7 +51,7 @@
     }
 
 
-    /* 🔴 БЛОК ДАННЫХ ПОЛЬЗОВАТЕЛЯ */
+    /*  БЛОК ДАННЫХ ПОЛЬЗОВАТЕЛЯ */
 
     .user-info {
       display: flex;
@@ -117,7 +117,7 @@
       background: #d16969;
     }
 
-    /* 🟢 ЧЕКБОКСЫ И ПОРЯДОК */
+    /*  ЧЕКБОКСЫ И ПОРЯДОК */
 
     .menu-settings {
       display: flex;
@@ -180,7 +180,7 @@
       background: #d16969;
     }
 
-    /* 🟣 КНОПКА СОХРАНИТЬ */
+    /*  КНОПКА СОХРАНИТЬ */
 
     .save-btn,
     .add-btn {
@@ -359,23 +359,23 @@
         <div class="user-photo">
           <img src="/assets/compik.png" alt="User Photo" />
         </div>
+      <form method="POST" action="/profile">
         <div class="user-fields">
           <div class="user-field">
-            <label>Логин</label>
-            <input type="text" value="Test_test_test" />
-            <button class="edit-btn">Изменить</button>
+            <label>Email</label>
+            <input type="email" name="email" value="<?= htmlspecialchars($userData['email'] ?? '') ?>" />
           </div>
           <div class="user-field">
             <label>Имя</label>
-            <input type="text" value="Test_test_test" />
-            <button class="edit-btn">Изменить</button>
+            <input type="text" name="name" value="<?= htmlspecialchars($userData['name'] ?? '') ?>" />
           </div>
           <div class="user-field">
             <label>Номер телефона</label>
-            <input type="text" value="Test_test_test" />
-            <button class="edit-btn">Изменить</button>
+            <input type="text" name="phone" value="<?= htmlspecialchars($userData['phone'] ?? '') ?>" />
           </div>
         </div>
+        <button type="submit">Сохранить изменения</button>
+        </form>
         <!-- Боковое меню -->
         <div id="sideMenu" class="side-menu">
           <div class="side-menu-header">
@@ -383,9 +383,9 @@
             <span>Resell.ru</span>
           </div>
           <ul class="side-menu-list">
-            <li><a href="#">Главная</a></li>
-            <li><a href="#">Подать объявление</a></li>
-            <li><a href="#">Личный кабинет</a></li>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/createAdv">Подать объявление</a></li>
+            <li><a href="/profile">Личный кабинет</a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
             <li><a href="/logout">Выйти</a></li>
             <?php endif; ?>
@@ -396,10 +396,10 @@
       <div class="menu-settings">
         <div class="menu-view">
           <div class="pred-title">Вид меню</div>
-          <div class="checkbox-row">
+          <!-- <div class="checkbox-row">
             <label>Главная</label>
             <input type="checkbox" data-name="Главная" />
-          </div>
+          </div> -->
           <div class="checkbox-row">
             <label>Подать объявление</label>
             <input type="checkbox" data-name="Подать объявление" />
@@ -476,9 +476,57 @@
     const checkboxes = document.querySelectorAll(".menu-view input[type='checkbox']");
     const saveBtn = document.getElementById("saveBtn");
     const message = document.getElementById("message");
+    const sideMenuList = document.querySelector(".side-menu-list");
+    const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+    let currentOrder = [];
+    let visibleItems = [];
 
-    const menuItems = ["Главная", "Подать объявление", "Личный кабинет", "Выйти"];
-    let currentOrder = [...menuItems];
+    async function loadMenuSettings() {
+      try {
+        const responce = await fetch('/api/menu-settings');
+        const data = await responce.json();
+        console.log(data);
+        console.log(data['menu_config']);
+        let list_items = JSON.parse(data['menu_config']);
+        console.log(list_items);
+        list_items.forEach(item => {
+          switch(item['title']){
+            case 'Create':
+              item['title'] = menuItems[0];
+              break;
+            case 'Profile':
+              item['title'] = menuItems[1];
+              break;
+            default:
+              item['title'] = menuItems[2];
+              break;
+          }
+          currentOrder.splice(item['id'], 0, item);
+        });
+
+      visibleItems = list_items.filter(item => item.is_visible).map(item => item.title);
+      console.log('visible', visibleItems);
+      console.log('current', currentOrder);
+
+      checkboxes.forEach(cb => {
+        cb.checked = visibleItems.includes(cb.dataset.name);
+        cb.addEventListener("change", () => {
+          if (cb.checked) {
+            visibleItems.push(cb.dataset.name);
+          } else {
+            visibleItems = visibleItems.filter(item => item !== cb.dataset.name);
+          }
+          setChanged(true);
+        });
+      });
+
+        renderOrderList();
+        updateSideMenu();
+
+      } catch (error) {
+        console.error('Ошибка загрузки настроек:', error);
+     }
+    }
 
     function renderOrderList() {
       orderList.innerHTML = "";
@@ -486,7 +534,7 @@
         const row = document.createElement("div");
         row.className = "order-row";
         row.innerHTML = `
-          <div class="order-name">${item}</div>
+          <div class="order-name">${item['title']}</div>
           <div class="order-buttons">
             <button onclick="moveItem(${index}, -1)">Вверх</button>
             <button onclick="moveItem(${index}, 1)">Вниз</button>
@@ -510,35 +558,70 @@
       saveBtn.disabled = !state;
     }
 
-    checkboxes.forEach(cb => {
-      cb.addEventListener("change", () => setChanged(true));
-    });
 
-    saveBtn.addEventListener("click", () => {
+
+  function updateSideMenu() {
+    sideMenuList.innerHTML = '';
+
+    currentOrder.filter(item=>visibleItems.includes(item.title))
+        .forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = item['url'];
+        a.textContent = item['title'];
+        li.appendChild(a);
+        sideMenuList.appendChild(li);
+    });
+}
+
+  saveBtn.addEventListener("click", async () => {
       const visible = [];
       checkboxes.forEach(cb => {
         if (cb.checked) visible.push(cb.dataset.name);
       });
 
+      console.log(visible);
+      // currentOrder = currentOrder.filter(item=>visibleItems.includes(item.title));
+      currentOrder = currentOrder.map(item => ({
+        ...item,
+        is_visible: item.title === 'Личный кабинет' || visible.includes(item.title)
+     }));
+      console.log(currentOrder);
       const payload = {
-        visibleItems: visible,
-        order: currentOrder
-      };
+            items: currentOrder.map(item => ({
+                id: item.id,
+                url: item.url,
+                title: item.title,
+                is_visible: item.is_visible
+            }))
+        };
+      console.log('Отправляемые данные', JSON.stringify(payload));
 
-      // 👉 ЗАГРУЗКА НАСТРОЕК НА СЕРВЕР:
-      /*
-      fetch("/api/save-settings", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(res => res.json())
-        .then(data => {
-          showMessage();
+      try {
+        const response = await fetch('/api/save-menu-settings', {
+          method: "POST",
+          headers: {'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'},
+          body: JSON.stringify(payload)
         });
-      */
-
-      showMessage();
-      setChanged(false);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            throw new Error(errorData?.error || `HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+                    console.log(data);
+        if (data.success) {
+          updateSideMenu();
+          showMessage();
+          setChanged(false);
+        }
+        else {
+          alert('Ошибка настройки');
+        }
+      } catch(error){
+           console.log('client',error);
+        alert('Ошибка настройки');
+      }
     });
 
     function showMessage() {
@@ -548,10 +631,8 @@
       }, 2000);
     }
 
-    // TODO: Загрузка с сервера (заглушка)
     window.onload = function () {
-      renderOrderList();
-      // Здесь можно подгружать чекбоксы и порядок с сервера
+      loadMenuSettings();
     };
 
     document.getElementById("menuToggle").addEventListener("click", function () {

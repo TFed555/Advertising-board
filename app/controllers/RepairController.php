@@ -69,7 +69,7 @@ class RepairController {
         // echo "\n";
         // echo $currentTime;
 
-        if ($expiredTime > $currentTime) {
+        if ($expiredTime < $currentTime) {
             User::deleteResetToken($token);
             die('Время ссылки истекло');
         }
@@ -77,7 +77,6 @@ class RepairController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $newPassword = $_POST['new_password'] ?? '';
             $confirmPassword = $_POST['confirm_password'] ?? '';
-            $oldPassword = User::changePassword($token, $newPassword);
 
             if ($newPassword !== $confirmPassword) {
                 $error = 'Пароли не совпадают';

@@ -19,7 +19,7 @@ class AuthMiddleware { public function handle() {
         }
     }
     private function isProtectedRoute() {
-        $protectedRoutes = ['/', '/profile', '/settings'];
+        $protectedRoutes = ['/', '/profile', '/settings', '/createAdv'];
         return in_array($_SERVER['REQUEST_URI'], $protectedRoutes);
     }
 }
