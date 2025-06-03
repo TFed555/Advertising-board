@@ -2,7 +2,7 @@
 
 class UserMenu {
     public static function createUserMenu($userId) {
-        $query = Database::query('Insert into usermenus (user_id) values (?)', [$userId]);
+        $query = Database::query('Insert into user_menus (user_id) values (?)', [$userId]);
     }
     public static function getMenuSettings($userId) {
         $query = Database::query('Select menu_config from user_menus where user_id = ?', [$userId]);
@@ -32,8 +32,8 @@ class UserMenu {
             }
     }
 
-    public static function updateVisibility($userId, $itemId, $isVisible) {
-        Database::query('Update users_menus set menu_config = JSON_SET(menu_config, "$.items[?(@.id == ?].is_visible", ?)
-         where user_id = ?', [$itemId, $isVisible, $userId]);
-    }
+    // public static function updateVisibility($userId, $itemId, $isVisible) {
+    //     Database::query('Update users_menus set menu_config = JSON_SET(menu_config, "$.items[?(@.id == ?].is_visible", ?)
+    //      where user_id = ?', [$itemId, $isVisible, $userId]);
+    // }
 }

@@ -1,6 +1,6 @@
 <?php
 require __DIR__.'/../models/Adverts.php';
-require __DIR__.'/../models/UserMenu.php';
+require_once __DIR__.'/../models/UserMenu.php';
 
 class ApiController {
     public function handleCategory() {
@@ -33,7 +33,10 @@ class ApiController {
         if (ob_get_length()) ob_clean();
         $settings = UserMenu::getMenuSettings($_SESSION['user_id']);
         header('Content-Type: application/json; charset=utf-8');
-
+        if (!$settings){
+            UserMenu::createUserMenu($_SESSION['user_id']);
+            $settings = UserMenu::getMenuSettings($_SESSION['user_id']);
+        }
         if (is_string($settings)) {
             exit($settings);
         }
@@ -73,10 +76,13 @@ class ApiController {
                 'is_visible' => $item['is_visible']
             ];
         }
+        $payload = [
+            'items' => $menuItems
+        ];
 
         $success = UserMenu::saveMenuSettings(
             $_SESSION['user_id'],
-            json_encode($menuItems)
+            json_encode($payload)
         );
 
         if (!$success) {

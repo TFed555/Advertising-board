@@ -483,12 +483,27 @@
 
     async function loadMenuSettings() {
       try {
-        const responce = await fetch('/api/menu-settings');
-        const data = await responce.json();
-        console.log(data);
+        const response = await fetch('/api/menu-settings');
+        const data = await response.json();
         console.log(data['menu_config']);
-        let list_items = JSON.parse(data['menu_config']);
-        console.log(list_items);
+        // console.log(data['menu_config']);
+        // console.log(typeof(JSON.parse(data.menu_config)));
+        // console.log(JSON.parse(data.menu_config)[0]);
+        if (!data.menu_config) {
+            throw new Error('Missing menu_config in response');
+        }
+
+        // let list_items = JSON.parse(data.menu_config);
+        try {
+            list_items = JSON.parse(data.menu_config);
+            list_items = list_items['items'];
+        } catch (e) {
+            throw new Error('Invalid JSON in menu_config');
+        }
+        // console.log('List_items', list_items);
+        // console.log(typeof(list_items));
+
+        // console.log('Parsed items:', list_items);
         list_items.forEach(item => {
           switch(item['title']){
             case 'Create':
@@ -501,10 +516,10 @@
               item['title'] = menuItems[2];
               break;
           }
-          currentOrder.splice(item['id'], 0, item);
         });
 
-      visibleItems = list_items.filter(item => item.is_visible).map(item => item.title);
+        currentOrder = list_items || [];
+        visibleItems = currentOrder.filter(item => item.is_visible).map(item => item.title);
       console.log('visible', visibleItems);
       console.log('current', currentOrder);
 
@@ -563,7 +578,7 @@
   function updateSideMenu() {
     sideMenuList.innerHTML = '';
 
-    currentOrder.filter(item=>visibleItems.includes(item.title))
+    currentOrder.filter(item=>item.is_visible)
         .forEach(item => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -580,13 +595,13 @@
         if (cb.checked) visible.push(cb.dataset.name);
       });
 
-      console.log(visible);
+      console.log('Visible',visible);
       // currentOrder = currentOrder.filter(item=>visibleItems.includes(item.title));
       currentOrder = currentOrder.map(item => ({
         ...item,
         is_visible: item.title === 'Личный кабинет' || visible.includes(item.title)
      }));
-      console.log(currentOrder);
+      console.log('CurrentOrder',currentOrder);
       const payload = {
             items: currentOrder.map(item => ({
                 id: item.id,

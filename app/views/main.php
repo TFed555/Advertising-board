@@ -450,7 +450,46 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        const sideMenuList = document.querySelector(".side-menu-list");
+        const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+        let currentOrder = [];
+
+        function updateSideMenu() {
+            sideMenuList.innerHTML = '';
+
+            currentOrder.filter(item=>item.is_visible)
+                .forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = item['url'];
+                a.textContent = item['title'];
+                li.appendChild(a);
+                sideMenuList.appendChild(li);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", async function () {
+        const response = await fetch('/api/menu-settings');
+        const data = await response.json();
+        list_items = JSON.parse(data.menu_config);
+        list_items = list_items['items'];
+        list_items.forEach(item => {
+          switch(item['title']){
+            case 'Create':
+              item['title'] = menuItems[0];
+              break;
+            case 'Profile':
+              item['title'] = menuItems[1];
+              break;
+            default:
+              item['title'] = menuItems[2];
+              break;
+          }
+        });
+
+        currentOrder= list_items || [];
+
+        updateSideMenu();
         const cards = document.querySelectorAll(".category-card");
 
         cards.forEach(card => {
