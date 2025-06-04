@@ -6,12 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Личный кабинет</title>
   <style>
-    /* ОБЩИЙ СТИЛЬ */
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      /* background: url('../../public/assets/bg_main.png') no-repeat center center fixed; */
       background: url('/assets/bg_main.png') no-repeat center center fixed;
       background-size: cover;
       color: #000;
@@ -28,7 +25,6 @@
 
     .header {
       display: flex;
-      /* background: url('../../public/assets/header_main.png') no-repeat center; */
       background: url('/assets/header_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
@@ -50,21 +46,15 @@
       text-align: center;
     }
 
-
-    /*  БЛОК ДАННЫХ ПОЛЬЗОВАТЕЛЯ */
-
     .user-info {
       display: flex;
       align-items: center;
-      /* margin-bottom: 40px;
-      margin-left: 30px;
-      margin-right: 30px; */
       margin: 20px 30px 40px 30px;
     }
 
     .user-photo {
-      width: 180px;
-      height: 180px;
+      width: 220px;
+      height: 220px;
       border-radius: 20px;
       overflow: hidden;
       margin-right: 30px;
@@ -116,8 +106,6 @@
     .edit-btn:hover {
       background: #d16969;
     }
-
-    /*  ЧЕКБОКСЫ И ПОРЯДОК */
 
     .menu-settings {
       display: flex;
@@ -180,8 +168,6 @@
       background: #d16969;
     }
 
-    /*  КНОПКА СОХРАНИТЬ */
-
     .save-btn,
     .add-btn {
       display: block;
@@ -215,7 +201,6 @@
     }
 
     .footer {
-      /* background: url('../../public/assets/footer_main.png') no-repeat center; */
       background: url('/assets/footer_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
@@ -239,8 +224,8 @@
     }
 
     .menu-toggle {
-      background: red;
-      color: white;
+      background: white;
+      color: red;
       border: none;
       border-radius: 50%;
       width: 35px;
@@ -338,52 +323,42 @@
   <div class="overlay">
     <div class="container">
       <div class="header">
-        <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-        <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+        <div class="logo"><a href="/"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
         <div class="header-text">
           Всё что нужно - ты найдёшь у нас! <br />
           Тысячи продавцов и тысячи покупателей!
         </div>
         <button id="menuToggle" class="menu-toggle">☰</button>
-        <!-- <div class="header-buttons">
-                    <button>Подать объявление</button>
-                    <button>Личный кабинет</button>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="logout-btn"><a href="/logout"
-                            style="color:red;text-decoration: none;">Выйти</a></button>
-                    <?php endif; ?>
-                </div> -->
       </div>
       <div class="pred-title">Личный кабинет</div>
       <div class="user-info">
         <div class="user-photo">
           <img src="/assets/compik.png" alt="User Photo" />
         </div>
-      <form method="POST" action="/profile">
-        <div class="user-fields">
-          <div class="user-field">
-            <label>Email</label>
-            <input type="email" name="email" value="<?= htmlspecialchars($userData['email'] ?? '') ?>" />
+        <form method="POST" action="/profile">
+          <div class="user-fields">
+            <div class="user-field">
+              <label>Email</label>
+              <input type="email" name="email" value="<?= htmlspecialchars($userData['email'] ?? '') ?>" />
+            </div>
+            <div class="user-field">
+              <label>Имя</label>
+              <input type="text" name="name" value="<?= htmlspecialchars($userData['name'] ?? '') ?>" />
+            </div>
+            <div class="user-field">
+              <label>Номер телефона</label>
+              <input type="text" name="phone" value="<?= htmlspecialchars($userData['phone'] ?? '') ?>"
+                pattern="^\+7[0-9]{10}$" />
+            </div>
           </div>
-          <div class="user-field">
-            <label>Имя</label>
-            <input type="text" name="name" value="<?= htmlspecialchars($userData['name'] ?? '') ?>" />
-          </div>
-          <div class="user-field">
-            <label>Номер телефона</label>
-            <input type="text" name="phone" value="<?= htmlspecialchars($userData['phone'] ?? '') ?>" />
-          </div>
-        </div>
-        <button type="submit">Сохранить изменения</button>
+          <button type="submit" class="add-btn" style="font-size: 13px;">Сохранить изменения</button>
         </form>
-        <!-- Боковое меню -->
         <div id="sideMenu" class="side-menu">
           <div class="side-menu-header">
             <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
             <span>Resell.ru</span>
           </div>
           <ul class="side-menu-list">
-            <li><a href="/">Главная</a></li>
             <li><a href="/createAdv">Подать объявление</a></li>
             <li><a href="/profile">Личный кабинет</a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
@@ -412,7 +387,6 @@
         <div class="menu-order">
           <div class="pred-title">Порядок в меню</div>
           <div id="order-list">
-            <!-- Элементы будут сгенерированы JS -->
           </div>
         </div>
       </div>
@@ -490,22 +464,22 @@
         // console.log(typeof(JSON.parse(data.menu_config)));
         // console.log(JSON.parse(data.menu_config)[0]);
         if (!data.menu_config) {
-            throw new Error('Missing menu_config in response');
+          throw new Error('Missing menu_config in response');
         }
 
         // let list_items = JSON.parse(data.menu_config);
         try {
-            list_items = JSON.parse(data.menu_config);
-            list_items = list_items['items'];
+          list_items = JSON.parse(data.menu_config);
+          list_items = list_items['items'];
         } catch (e) {
-            throw new Error('Invalid JSON in menu_config');
+          throw new Error('Invalid JSON in menu_config');
         }
         // console.log('List_items', list_items);
         // console.log(typeof(list_items));
 
         // console.log('Parsed items:', list_items);
         list_items.forEach(item => {
-          switch(item['title']){
+          switch (item['title']) {
             case 'Create':
               item['title'] = menuItems[0];
               break;
@@ -520,27 +494,27 @@
 
         currentOrder = list_items || [];
         visibleItems = currentOrder.filter(item => item.is_visible).map(item => item.title);
-      console.log('visible', visibleItems);
-      console.log('current', currentOrder);
+        console.log('visible', visibleItems);
+        console.log('current', currentOrder);
 
-      checkboxes.forEach(cb => {
-        cb.checked = visibleItems.includes(cb.dataset.name);
-        cb.addEventListener("change", () => {
-          if (cb.checked) {
-            visibleItems.push(cb.dataset.name);
-          } else {
-            visibleItems = visibleItems.filter(item => item !== cb.dataset.name);
-          }
-          setChanged(true);
+        checkboxes.forEach(cb => {
+          cb.checked = visibleItems.includes(cb.dataset.name);
+          cb.addEventListener("change", () => {
+            if (cb.checked) {
+              visibleItems.push(cb.dataset.name);
+            } else {
+              visibleItems = visibleItems.filter(item => item !== cb.dataset.name);
+            }
+            setChanged(true);
+          });
         });
-      });
 
         renderOrderList();
         updateSideMenu();
 
       } catch (error) {
         console.error('Ошибка загрузки настроек:', error);
-     }
+      }
     }
 
     function renderOrderList() {
@@ -575,56 +549,58 @@
 
 
 
-  function updateSideMenu() {
-    sideMenuList.innerHTML = '';
+    function updateSideMenu() {
+      sideMenuList.innerHTML = '';
 
-    currentOrder.filter(item=>item.is_visible)
+      currentOrder.filter(item => item.is_visible)
         .forEach(item => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = item['url'];
-        a.textContent = item['title'];
-        li.appendChild(a);
-        sideMenuList.appendChild(li);
-    });
-}
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = item['url'];
+          a.textContent = item['title'];
+          li.appendChild(a);
+          sideMenuList.appendChild(li);
+        });
+    }
 
-  saveBtn.addEventListener("click", async () => {
+    saveBtn.addEventListener("click", async () => {
       const visible = [];
       checkboxes.forEach(cb => {
         if (cb.checked) visible.push(cb.dataset.name);
       });
 
-      console.log('Visible',visible);
+      console.log('Visible', visible);
       // currentOrder = currentOrder.filter(item=>visibleItems.includes(item.title));
       currentOrder = currentOrder.map(item => ({
         ...item,
         is_visible: item.title === 'Личный кабинет' || visible.includes(item.title)
-     }));
-      console.log('CurrentOrder',currentOrder);
+      }));
+      console.log('CurrentOrder', currentOrder);
       const payload = {
-            items: currentOrder.map(item => ({
-                id: item.id,
-                url: item.url,
-                title: item.title,
-                is_visible: item.is_visible
-            }))
-        };
+        items: currentOrder.map(item => ({
+          id: item.id,
+          url: item.url,
+          title: item.title,
+          is_visible: item.is_visible
+        }))
+      };
       console.log('Отправляемые данные', JSON.stringify(payload));
 
       try {
         const response = await fetch('/api/save-menu-settings', {
           method: "POST",
-          headers: {'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'},
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
           body: JSON.stringify(payload)
         });
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            throw new Error(errorData?.error || `HTTP error! Status: ${response.status}`);
+          const errorData = await response.json().catch(() => null);
+          throw new Error(errorData?.error || `HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-                    console.log(data);
+        console.log(data);
         if (data.success) {
           updateSideMenu();
           showMessage();
@@ -633,8 +609,8 @@
         else {
           alert('Ошибка настройки');
         }
-      } catch(error){
-           console.log('client',error);
+      } catch (error) {
+        console.log('client', error);
         alert('Ошибка настройки');
       }
     });
