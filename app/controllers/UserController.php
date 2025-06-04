@@ -1,5 +1,6 @@
 <?php
 // require __DIR__.'/../models/User.php';
+require_once __DIR__.'/../models/Adverts.php';
 
 class UserController {
     public static function show() {
@@ -8,6 +9,7 @@ class UserController {
             if (!$userData) {
                 throw new Exception('Пользователь не найден');
             }
+            $userAds = Adverts::findByUserId($_SESSION['user_id']);
         }
         catch (Exception $e) {
             $error = 'Не удалось загрузить данные профиля';

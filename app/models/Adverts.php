@@ -33,9 +33,9 @@ class Adverts {
         WHERE category_id = :category_id
         ORDER BY $orderBy
         LIMIT :limit OFFSET :offset
-    ");
+        ");
 
-    $query->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $query->bindValue(':category_id', $category_id, PDO::PARAM_INT);
         $query->bindValue(':limit', $perPage, PDO::PARAM_INT);
         $query->bindValue(':offset', $offset, PDO::PARAM_INT);
         $query->execute();
@@ -79,6 +79,27 @@ class Adverts {
         }
 
         return $category;
+    }
+
+    public static function findByUserId($userId) {
+        $query = Database::query('Select * from ads where user_id = ? order by created_at DESC', [$userId]);
+
+        return $query->fetchAll();
+    }
+
+    public static function create($userId, $title, $description, $price, $category_id) {
+        $query = Database::query("
+            INSERT INTO ads (user_id, category_id, title, description, price, is_active)
+            values (?, ?, ?, ?, ?, ?)
+        ", [$userId, $category_id, $title, $description, $price, true]);
+
+        return $query->rowCount() > 0;
+    }
+
+    public static function attachPhoto($ad_id, $filename, $preview) {
+        $query = Database::query("INSERT INTO photos (ad_id, filename, preview_filename) values (?, ?)", [$ad_id, $filename, $preview]);
+
+        return $query->rowCount() > 0;
     }
 
 }

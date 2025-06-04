@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <title>Добавление объявления</title>
   <style>
-    /* ======= ОБЩИЙ ФОН И КОНТЕЙНЕР ======= */
 
     body {
       margin: 0;
@@ -83,7 +82,6 @@
       gap:10px;
     }
 
-    /* ======= ПРАВАЯ ЧАСТЬ: ФОРМА ======= */
 
     .form-group {
       margin-bottom: 15px;
@@ -105,7 +103,6 @@
       height: 100px;
     }
 
-    /* ======= КНОПКИ ======= */
 
     .btn {
       background: #c00;
@@ -123,7 +120,6 @@
       cursor: not-allowed;
     }
 
-    /* ======= ПОЛЯ ФОРМЫ И КНОПКИ ======= */
 
     .form-container {
       display: flex;
@@ -142,7 +138,6 @@
       text-align: center;
     }
 
-    /* ======= УВЕДОМЛЕНИЕ ======= */
 
     .notification {
       text-align: center;
@@ -264,11 +259,11 @@
       </div>
       <h1>Добавление объявления</h1>
 
-      <div class="form-container">
+      <form class="form-container" action="/create" method="POST" enctype="multipart/form-data">
         <!-- Фото -->
         <div>
           <div class="photo-upload" id="photoPreview">Фотография</div>
-          <input type="file" id="photoInput" multiple style="margin-top:10px" />
+          <input type="file" name='photos[]' id="photoInput" multiple style="margin-top:10px" />
           <div class="photo-controls">
             <button style="margin-right:20px;" onclick="prevPhoto()">←</button>
             <button onclick="nextPhoto()">→</button>
@@ -279,19 +274,19 @@
         <div class="form-fields">
           <div class="form-group">
             <label>Название</label>
-            <input type="text" id="title" />
+            <input type="text" name="title" id="title" />
           </div>
           <div class="form-group">
             <label>Описание</label>
-            <textarea id="description"></textarea>
+            <textarea name="description" id="description"></textarea>
           </div>
           <div class="form-group">
             <label>Цена</label>
-            <input type="text" id="price" />
+            <input type="text" name="price" id="price" />
           </div>
           <div class="form-group">
             <label>Категория</label>
-            <select id="category">
+            <select name="category" id="category">
               <option value="">Выберите категорию</option>
               <option value="1">Автомобили и запчасти</option>
               <option value="2">Квартиры и дачи</option>
@@ -302,6 +297,13 @@
             </select>
           </div>
         </div>
+
+             <!-- Кнопки -->
+      <div class="submit-controls">
+          <input class="btn" type="submit" value="Опубликовать" />
+          <button class="btn" type="reset">Отмена</button>
+      </div>
+      </form>
 
         <!-- Боковое меню -->
         <div id="sideMenu" class="side-menu">
@@ -322,11 +324,6 @@
       <!-- Уведомление -->
       <div class="notification" id="successMessage">Объявление успешно опубликовано!</div>
 
-      <!-- Кнопки -->
-      <div class="submit-controls">
-        <button class="btn" id="submitBtn" disabled onclick="submitForm()">Опубликовать</button>
-        <button class="btn" onclick="location.reload()">Отмена</button>
-      </div>
       <div class="footer">
         &copy; 2025. Все права защищены.
       </div>
@@ -340,6 +337,24 @@
     const categoryInput = document.getElementById('category');
     const photoInput = document.getElementById('photoInput');
     const submitBtn = document.getElementById('submitBtn');
+
+    const sideMenuList = document.querySelector(".side-menu-list");
+    const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+    let currentOrder = [];
+
+    function updateSideMenu() {
+            sideMenuList.innerHTML = '';
+
+            currentOrder.filter(item=>item.is_visible)
+                .forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = item['url'];
+                a.textContent = item['title'];
+                li.appendChild(a);
+                sideMenuList.appendChild(li);
+            });
+      }
 
     let photos = [];
     let currentPhotoIndex = 0;
@@ -396,33 +411,57 @@
     }
 
     // Отправка на сервер
-    async function submitForm() {
-      const formData = new FormData();
-      formData.append('title', titleInput.value);
-      formData.append('description', descInput.value);
-      formData.append('price', priceInput.value);
-      formData.append('category', categoryInput.value);
-      photos.forEach((photo, i) => {
-        formData.append('photos[]', photo);
-      });
+    // async function submitForm() {
+    //   const formData = new FormData();
+    //   formData.append('title', titleInput.value);
+    //   formData.append('description', descInput.value);
+    //   formData.append('price', priceInput.value);
+    //   formData.append('category', categoryInput.value);
+    //   photos.forEach((photo, i) => {
+    //     formData.append('photos[]', photo);
+    //   });
 
-      try {
-        const response = await fetch('https://your-server.com/api/listings', {
-          method: 'POST',
-          body: formData,
-        });
-        if (response.ok) {
-          document.getElementById('successMessage').style.display = 'block';
-        } else {
-          alert('Ошибка при публикации');
-        }
-      } catch (err) {
-        alert('Ошибка соединения с сервером');
-      }
-    }
+    //   try {
+    //     const response = await fetch('https://your-server.com/api/listings', {
+    //       method: 'POST',
+    //       body: formData,
+    //     });
+    //     if (response.ok) {
+    //       document.getElementById('successMessage').style.display = 'block';
+    //     } else {
+    //       alert('Ошибка при публикации');
+    //     }
+    //   } catch (err) {
+    //     alert('Ошибка соединения с сервером');
+    //   }
+    // }
     document.getElementById("menuToggle").addEventListener("click", function () {
       document.getElementById("sideMenu").classList.toggle("open");
     });
+
+    document.addEventListener("DOMContentLoaded", async function () {
+      const response = await fetch('/api/menu-settings');
+        const data = await response.json();
+        list_items = JSON.parse(data.menu_config);
+        list_items = list_items['items'];
+        list_items.forEach(item => {
+          switch(item['title']){
+            case 'Create':
+              item['title'] = menuItems[0];
+              break;
+            case 'Profile':
+              item['title'] = menuItems[1];
+              break;
+            default:
+              item['title'] = menuItems[2];
+              break;
+          }
+        });
+
+        currentOrder= list_items || [];
+
+        updateSideMenu();
+      });
   </script>
 </body>
 

@@ -4,7 +4,7 @@ $router->add('GET', '/login', 'AuthController@login');
 $router->add('GET', '/register', 'AuthController@register');
 $router->add('GET', '/logout', 'AuthController@logout');
 $router->add('GET', '/profile', 'UserController@show');
-
+$router->add('GET', '/createAdv', 'AdController@handleAd');
 $router->add('GET', '/reset', 'RepairController@reset');
 $router->add('GET', '/categories/:slug', 'CategoryController@show');
 
@@ -13,6 +13,7 @@ $router->add('POST', '/register', 'AuthController@register');
 $router->add('POST', '/repair', 'RepairController@repair');
 $router->add('POST', '/reset', 'RepairController@reset');
 $router->add('POST', '/profile', 'UserController@updateProfile');
+$router->add('POST', '/create', 'AdController@create');
 
 //для api запросов
 $router->add('POST', '/api/category', 'ApiController@handleCategory');

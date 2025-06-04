@@ -2,7 +2,15 @@
 
 class UserMenu {
     public static function createUserMenu($userId) {
-        $query = Database::query('Insert into user_menus (user_id) values (?)', [$userId]);
+         $defaultMenu = json_encode([
+        'items' => [
+            ['id' => 0, 'title' => 'Profile', 'url' => '/profile', 'is_visible' => true],
+            ['id' => 1, 'title' => 'Create', 'url' => '/createAdv', 'is_visible' => true],
+            ['id' => 2, 'title' => 'Logout', 'url' => '/logout', 'is_visible' => true],
+        ]
+    ]);
+
+        $query = Database::query('Insert into user_menus (user_id, menu_config) values (?, ?)', [$userId, $defaultMenu]);
     }
     public static function getMenuSettings($userId) {
         $query = Database::query('Select menu_config from user_menus where user_id = ?', [$userId]);

@@ -421,50 +421,24 @@
       <div class="message" id="message">Настройки сохранены</div>
       <button class="add-btn" id="addBtn" disabled>Добавить объявление</button>
       <div class="listings">
-        <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
+    <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
+    <form method="get">
         <div class="listing-grid">
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
-          <div class="listing-card">
-            <img src="/assets/bananchik.png" alt="Объявление" />
-            <div>Автомобиль BANANCHIK</div>
-            <div>900 000 руб.</div>
-          </div>
+            <?php if (!empty($userAds)): ?>
+                <?php foreach ($userAds as $ad): ?>
+                    <div class="listing-card">
+                        <img src="<?= htmlspecialchars($ad['image_url'] ?? '/assets/no-image.png') ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
+                        <h3><?= htmlspecialchars($ad['title']) ?></h3>
+                        <p><?= htmlspecialchars($ad['price']) ?> ₽</p>
+                        <p><?= date('d.m.Y', strtotime($ad['created_at'])) ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>У вас пока нет объявлений</p>
+            <?php endif; ?>
         </div>
-      </div>
+    </form>
+    </div>
 
       <div class="footer">
         &copy; 2025. Все права защищены.
