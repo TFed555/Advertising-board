@@ -10,7 +10,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: url('./assets/bg_main.png') no-repeat center center fixed;
+            background: url('/assets/bg_main.png') no-repeat center center fixed;
             background-size: cover;
             color: #000;
         }
@@ -28,7 +28,7 @@
 
         .header {
             display: flex;
-            background: url('./assets/header_main.png') no-repeat center;
+            background: url('/assets/header_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
             color: white;
@@ -43,7 +43,7 @@
         }
 
         .footer {
-            background: url('./assets/footer_main.png') no-repeat center;
+            background: url('/assets/footer_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
             text-align: center;
@@ -287,7 +287,7 @@
     <div class="overlay">
         <div class="container">
             <div class="header">
-                <div class="logo"><a href="/"><img src="./assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
+                <div class="logo"><a href="/"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
                 <div class="header-text">
                     Всё что нужно - ты найдёшь у нас! <br />
                     Тысячи продавцов и тысячи покупателей!
@@ -301,7 +301,7 @@
 
                 <div id="sideMenu" class="side-menu">
                     <div class="side-menu-header">
-                        <img src="./assets/Logo.png" alt="Логотип" width="50" height="20">
+                        <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
                         <span>Resell.ru</span>
                     </div>
                     <ul class="side-menu-list">
