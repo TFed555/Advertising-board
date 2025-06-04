@@ -199,10 +199,10 @@
           <h2>Создайте аккаунт</h2>
           <p>Заполните форму, чтобы зарегистрироваться</p>
           <form action="/register" method="POST">
-            <input type="username" name="username" placeholder="Имя пользователя.." />
+            <input type="username" name="username" placeholder="Имя пользователя.." required>
             <input type="email" name="email" placeholder="Введите email.." required>
-            <input type="password" name="password" placeholder="Введите пароль.." required>
-            <input type="phone" name="phone" placeholder="Номер телефона.." />
+            <input type="password" name="password" placeholder="Введите пароль..(минимум 4 символа)"  minlength="4" required>
+            <input type="phone" name="phone" placeholder="Номер телефона.." pattern="^\+7[0-9]{10}$" required>
             <button type="submit">Зарегистрироваться</button>
           </form>
           <div class="register">
