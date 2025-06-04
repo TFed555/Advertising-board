@@ -9,13 +9,11 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            /* background: url('../../public/assets/bg_main.png') no-repeat center center fixed; */
             background: url('/assets/bg_main.png') no-repeat center center fixed;
             background-size: cover;
             color: #000;
         }
 
-        /* Контейнер страницы */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -24,10 +22,8 @@
             background: linear-gradient(180deg, #fff 0%, #999 100%);
         }
 
-        /* HEADER */
         .header {
             display: flex;
-            /* background: url('../../public/assets/header_main.png') no-repeat center; */
             background: url('/assets/header_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
@@ -65,12 +61,6 @@
             transform: scale(1.05);
         }
 
-        /* Поисковая строка */
-        /* .search-section {
-            text-align: center;
-            padding-bottom: 20px;
-        } */
-
         .search-input {
             width: 60%;
             padding: 10px;
@@ -97,7 +87,6 @@
             transform: scale(1.05);
         }
 
-        /* Сетка категорий */
         .category-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -146,11 +135,9 @@
             width: 150px;
             height: 150px;
             object-fit: cover;
-            /* Обрезаем лишнее */
             pointer-events: none;
         }
 
-        /* Свежие объявления */
         .listings {
             padding: 20px;
         }
@@ -190,9 +177,7 @@
             border-radius: 5px;
         }
 
-        /* FOOTER */
         .footer {
-            /* background: url('../../public/assets/footer_main.png') no-repeat center; */
             background: url('/assets/footer_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
@@ -225,19 +210,9 @@
             padding-bottom: 7px;
         }
 
-        .search-section {
-            text-align: center;
-            padding-bottom: 20px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
         .menu-toggle {
-            background: red;
-            color: white;
+            background: white;
+            color: red;
             border: none;
             border-radius: 50%;
             width: 35px;
@@ -251,8 +226,8 @@
 
         .side-menu {
             position: absolute;
-            
-            right: 0px;
+            top: 60px;
+            right: 160px;
             width: 220px;
             background-color: #fff;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
@@ -306,53 +281,29 @@
     <div class="overlay">
 
         <div class="container">
-            <!-- HEADER -->
             <div class="header">
-                <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-                <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+                <div class="logo"><a href="/"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
                 <div class="header-text">
                     Всё что нужно - ты найдёшь у нас! <br />
                     Тысячи продавцов и тысячи покупателей!
                 </div>
                 <button id="menuToggle" class="menu-toggle">☰</button>
-                <!-- <div class="header-buttons">
-                    <button>Подать объявление</button>
-                    <button>Личный кабинет</button>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="logout-btn"><a href="/logout"
-                            style="color:red;text-decoration: none;">Выйти</a></button>
-                    <?php endif; ?>
-                </div> -->
             </div>
 
-
-            <div class="pred-title">Ищите нужные товары</div>
-            <!-- Поисковик -->
-            <div class="search-section">
-                
-                <input class="search-input" type="text" placeholder="Поиск.." />
-                <button class="search-button">Найти</button>
-
-                <!-- Боковое меню -->
-                <div id="sideMenu" class="side-menu">
-                    <div class="side-menu-header">
-                        <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
-                        <span>Resell.ru</span>
-                    </div>
-                    <ul class="side-menu-list">
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Подать объявление</a></li>
-                        <li><a href="#">Личный кабинет</a></li>
-                        <?php if (isset($_SESSION['user_id'])): ?>
-                        <li><a href="/logout">Выйти</a></li>
-                        <?php endif; ?>
-                    </ul>
+            <div class="pred-title">Все категории</div>
+            <div id="sideMenu" class="side-menu">
+                <div class="side-menu-header">
+                    <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
+                    <span>Resell.ru</span>
                 </div>
+                <ul class="side-menu-list">
+                    <li><a href="#">Подать объявление</a></li>
+                    <li><a href="/profile">Личный кабинет</a></li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <li><a href="/logout">Выйти</a></li>
+                    <?php endif; ?>
+                </ul>
             </div>
-
-
-            <div class="pred-title">Либо сразу выбирайте нужную категорию</div>
-            <!-- Категории -->
             <div class="category-grid">
                 <div class="category-card" data-category="1">
                     <div class="category-text">
@@ -396,7 +347,6 @@
                 </div>
             </div>
 
-            <!-- Свежие объявления -->
             <div class="listings">
                 <div class="pred-title">Свежие объявления</div>
                 <div class="listing-grid">
@@ -443,39 +393,93 @@
                 </div>
             </div>
 
-            <!-- FOOTER -->
             <div class="footer">
                 &copy; 2025. Все права защищены.
             </div>
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        const sideMenuList = document.querySelector(".side-menu-list");
+        const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+        let currentOrder = [];
+
+        function updateSideMenu() {
+            sideMenuList.innerHTML = '';
+
+            currentOrder.filter(item => item.is_visible)
+                .forEach(item => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = item['url'];
+                    a.textContent = item['title'];
+                    li.appendChild(a);
+                    sideMenuList.appendChild(li);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const response = await fetch('/api/menu-settings');
+            const data = await response.json();
+            list_items = JSON.parse(data.menu_config);
+            list_items = list_items['items'];
+            list_items.forEach(item => {
+                switch (item['title']) {
+                    case 'Create':
+                        item['title'] = menuItems[0];
+                        break;
+                    case 'Profile':
+                        item['title'] = menuItems[1];
+                        break;
+                    default:
+                        item['title'] = menuItems[2];
+                        break;
+                }
+            });
+
+            currentOrder = list_items || [];
+
+            updateSideMenu();
             const cards = document.querySelectorAll(".category-card");
 
             cards.forEach(card => {
-                card.addEventListener("click", function () {
-                    const category = card.getAttribute("data-category");
+                card.addEventListener("click", async function () {
+                    const category = this.getAttribute("data-category");
 
-                    fetch("/api/category", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ category })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Ответ от сервера:", data);
-                            if (data.redirect_url) {
-                                window.location.href = data.redirect_url;
-                            }
-                        })
-                        .catch(error => console.error("Ошибка:", error));
+                    try {
+                        const response = await fetch("/api/category", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Accept": "application/json"
+                            },
+                            body: JSON.stringify({ category })
+                        });
+
+                        const contentType = response.headers.get('content-type');
+                        if (!contentType || !contentType.includes('application/json')) {
+                            const text = await response.text();
+                            console.error('Ожидался JSON, но получено:', text);
+                            throw new Error('Сервер вернул не JSON');
+                        }
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Ошибка сервера');
+                        }
+
+                        if (data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        }
+
+                    } catch (error) {
+                        console.error('Ошибка:', error);
+                        alert('Произошла ошибка при переходе в категорию');
+                    }
                 });
             });
         });
-        
+
         document.getElementById("menuToggle").addEventListener("click", function () {
             document.getElementById("sideMenu").classList.toggle("open");
         });
