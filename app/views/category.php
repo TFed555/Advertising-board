@@ -73,7 +73,7 @@
         }
 
         .search-input {
-            width: 60%;
+            width: 500px;
             padding: 10px;
             border-radius: 15px;
             border: 2px solid red;
@@ -273,7 +273,7 @@
             border-radius: 10px;
             padding: 6px 10px;
             cursor: pointer;
-            width: 60%;
+            width: 20%;
             gap: 10px;
         }
         a {
@@ -295,7 +295,7 @@
                 <button id="menuToggle" class="menu-toggle">☰</button>
             </div>
             <div class="search-section">
-                <form method="POST" action="/search">
+                <form method="POST" style="display:flex" action="/search">
                     <input class="search-input" type="text" name="findString" placeholder="Поиск.." />
                     <input type="hidden" name="category_id" value="<?= htmlspecialchars($slug) ?>">
                     <input type="submit" class="search-button" value="Найти">
@@ -378,7 +378,7 @@
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?page=<?= $i ?>" <?=$i===$page ? 'class="active"' : '' ?>>
+                <a style="display: flex; flex-direction: column;" href="?page=<?= $i ?>" <?=$i===$page ? 'class="active"' : '' ?>>
                     <?= $i ?>
                 </a>
                 <?php endfor; ?>
