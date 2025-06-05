@@ -420,6 +420,11 @@
       <button class="save-btn" id="saveBtn" disabled>Сохранить</button>
       <div class="message" id="message">Настройки сохранены</div>
       <button class="add-btn" id="addBtn" disabled><a href="/createAdv">Добавить объявление</a></button>
+
+      <?php if ($admin): ?>
+        <button class = "xml-import"><a href="/upload-xml">Импорт xml-файла</a></button>
+      <?php endif; ?>
+
       <div class="listings">
     <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
     <form method="get">

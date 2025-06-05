@@ -6,6 +6,7 @@ class UserController {
     public static function show() {
         try {
             $userData = $_SESSION['user'];
+            $admin = $_SESSION['user_id'] == $_ENV['ADMIN_ID'] ? true : false;
             if (!$userData) {
                 throw new Exception('Пользователь не найден');
             }
