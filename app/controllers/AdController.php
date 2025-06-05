@@ -7,7 +7,7 @@ class AdController {
         require __DIR__.'/../views/add_new.php';
     }
 
-    private function createPreviewWithWatermark($srcPath, $previewPath, $watermarkPath) {
+    public static function createPreviewWithWatermark($srcPath, $previewPath, $watermarkPath) {
             $image = imagecreatefromstring(file_get_contents($srcPath));
             $width = 200;
             $height = 200;

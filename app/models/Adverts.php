@@ -161,4 +161,21 @@ class Adverts {
 
             return (int)$query->fetchColumn();
     }
+
+    public static function createFromImport($userId, $categoryId, $title, $description, $price, $is_active) {
+            $db = Database::getPdo();
+            $query = $db->prepare("INSERT INTO ads (user_id, category_id, title, description, price, is_active)
+                                VALUES (:user_id, :category_id, :title, :description, :price, :is_active)");
+
+            $query->bindValue(':user_id', $userId, PDO::PARAM_INT);
+            $query->bindValue(':category_id', $categoryId, PDO::PARAM_INT);
+            $query->bindValue(':title', $title, PDO::PARAM_STR);
+            $query->bindValue(':description', $description, PDO::PARAM_STR);
+            $query->bindValue(':price', $price);
+            $query->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
+            $query->execute();
+
+        return Database::lastInsertId();
+    }
+
 }
