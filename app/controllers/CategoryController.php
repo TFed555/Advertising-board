@@ -25,7 +25,7 @@ class CategoryController {
             $totalAds = Adverts::countByCategory($slug);
             $category = Adverts::getCategory($slug);
 
-            $val = $ads[0]['img_path_preview'];
+            // $val = $ads[0]['img_path_preview'];
 
             $totalPages = ceil($totalAds / $perPage);
 

@@ -96,8 +96,20 @@ class Adverts {
     }
 
     public static function findByUserId($userId) {
-        $query = Database::query('Select * from ads inner join ad_images on ads.id = ad_images.ad_id
-        where user_id = ? order by created_at DESC', [$userId]);
+        $query = Database::query('SELECT
+                ads.*,
+                im.img_path_preview AS img_path_preview
+            FROM
+                ads
+            LEFT JOIN (
+                SELECT
+                    ad_id,
+                    img_path,
+                    img_path_preview,
+                    ROW_NUMBER() OVER (PARTITION BY ad_id ORDER BY id) AS rn
+                FROM
+                    ad_images
+            ) im ON ads.id = im.ad_id AND im.rn = 1 where ads.user_id = ?', [$userId]);
 
         return $query->fetchAll();
     }
@@ -178,4 +190,24 @@ class Adverts {
         return Database::lastInsertId();
     }
 
+    public static function findLastAds() {
+        $query = Database::query('SELECT
+                ads.*,
+                im.img_path_preview AS img_path_preview
+            FROM
+                ads
+            LEFT JOIN (
+                SELECT
+                    ad_id,
+                    img_path,
+                    img_path_preview,
+                    ROW_NUMBER() OVER (PARTITION BY ad_id ORDER BY id) AS rn
+                FROM
+                    ad_images
+            ) im ON ads.id = im.ad_id AND im.rn = 1
+            ORDER BY created_at DESC
+            LIMIT 5');
+
+        return $query->fetchAll();
+    }
 }

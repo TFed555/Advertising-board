@@ -8,6 +8,9 @@
     </title>
     <style>
         body {
+            display: flex;
+    flex-direction: column;
+    min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             background: url('/assets/bg_main.png') no-repeat center center fixed;
@@ -16,9 +19,10 @@
         }
 
         .container {
-            position: absolute;
-            top: 0;
-            bottom: 0;
+            flex:1;
+            display: flex;
+    flex-direction: column;
+            min-height: 100%;
             max-width: 1200px;
             margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.95);
@@ -42,7 +46,7 @@
             margin-left: 150px;
         }
 
-        .footer {
+       .footer {
             background: url('/assets/footer_main.png') no-repeat center;
             background-size: cover;
             padding: 20px;
@@ -50,9 +54,10 @@
             font-size: 14px;
             color: white;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
-            position: absolute;
-            bottom: 0;
-            width: -webkit-fill-available;
+            margin-top:auto;
+            /* position: relative;
+            bottom:0;
+            width: -webkit-fill-available; */
         }
 
         .ad-card {
@@ -186,13 +191,13 @@
         }
 
         .overlay {
+            flex:1;
             inset: 0;
             background-color: rgba(0, 0, 0, 0.6);
             display: flex;
-            width: 100vw;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
         }
 
         .side-menu {
@@ -263,15 +268,17 @@
 
         .pagination {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 10px;
+            gap:30px;
+            margin:20px;
         }
         .pag {
             background: #d00;
             color: white;
             border: none;
             border-radius: 10px;
-            padding: 6px 10px;
+            padding: 10px;
             cursor: pointer;
             width: 20%;
             gap: 10px;
@@ -351,11 +358,15 @@
             <?php if (count($ads) === 0): ?>
             <p>Объявлений пока нет.</p>
             <?php else: ?>
-            <?php foreach ($ads as $ad): ?>
-            <div class="listings">
+                <div class="listings">
                 <div class="listing-grid">
+            <?php foreach ($ads as $ad): ?>
                     <div class="listing-card">
-                        <img src="<?= htmlspecialchars(ltrim($ad['img_path_preview'], '.') ?? '/assets/no-image.jpg') ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
+                         <?php
+                            $imagePath = $ad['img_path_preview'] ?? '/assets/no-image.jpg';
+                            $imagePath = ltrim($imagePath, '.');
+                            ?>
+                        <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($ad['title'] ?? '') ?>">
                         <h2>
                             <?= htmlspecialchars($ad['title']) ?>
                         </h2>
@@ -378,7 +389,7 @@
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a style="display: flex; flex-direction: column;" href="?page=<?= $i ?>" <?=$i===$page ? 'class="active"' : '' ?>>
+                <a style="display: flex; flex-direction: column; margin-top:1%;margin-bottom:1%;" href="?page=<?= $i ?>" <?=$i===$page ? 'class="active"' : '' ?>>
                     <?= $i ?>
                 </a>
                 <?php endfor; ?>
@@ -388,9 +399,7 @@
                 <?php endif; ?>
             </div>
             <?php endif; ?>
-            <div class="footer">
-                &copy; 2025. Все права защищены.
-            </div>
+                <footer class="footer">&copy; 2025. Все права защищены.</footer>
         </div>
     </div>
     <script>

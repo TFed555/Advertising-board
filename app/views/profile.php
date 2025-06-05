@@ -239,8 +239,8 @@
     }
 
     .menu-toggle {
-      background: red;
-      color: white;
+      background: white;
+      color: red;
       border: none;
       border-radius: 50%;
       width: 35px;
@@ -331,6 +331,14 @@
       object-fit: cover;
       border-radius: 5px;
     }
+
+    .save_btn {
+      border-radius: 10px;
+      background:red;
+      color:white;
+      border:none;
+      padding:10px;
+    }
   </style>
 </head>
 
@@ -339,7 +347,7 @@
     <div class="container">
       <div class="header">
         <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-        <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+        <div class="logo"><a href="/"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
         <div class="header-text">
           Всё что нужно - ты найдёшь у нас! <br />
           Тысячи продавцов и тысячи покупателей!
@@ -374,7 +382,7 @@
             <input type="text" name="phone" value="<?= htmlspecialchars($userData['phone'] ?? '') ?>" />
           </div>
         </div>
-        <button type="submit">Сохранить изменения</button>
+        <button type="submit" class="save_btn">Сохранить изменения</button>
         </form>
         <!-- Боковое меню -->
         <div id="sideMenu" class="side-menu">
@@ -419,10 +427,10 @@
 
       <button class="save-btn" id="saveBtn" disabled>Сохранить</button>
       <div class="message" id="message">Настройки сохранены</div>
-      <button class="add-btn" id="addBtn" disabled><a href="/createAdv">Добавить объявление</a></button>
+      <button class="add-btn" id="addBtn" disabled><a style="text-decoration:none;color:white;" href="/createAdv">Добавить объявление</a></button>
 
       <?php if ($admin): ?>
-        <button class = "xml-import"><a href="/upload-xml">Импорт xml-файла</a></button>
+        <button class = "save-btn"><a href="/upload-xml" style="text-decoration:none;color:white;">Импорт xml-файла</a></button>
       <?php endif; ?>
 
       <div class="listings">

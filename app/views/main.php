@@ -347,51 +347,36 @@
                 </div>
             </div>
 
-            <div class="listings">
+            <?php if (count($ads) === 0): ?>
+            <p>Объявлений пока нет.</p>
+            <?php else: ?>
+                <div class="listings">
                 <div class="pred-title">Свежие объявления</div>
                 <div class="listing-grid">
+                <?php foreach ($ads as $ad): ?>
                     <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
+                         <?php
+                            $imagePath = $ad['img_path_preview'] ?? '/assets/no-image.jpg';
+                            $imagePath = ltrim($imagePath, '.');
+                            ?>
+                        <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($ad['title'] ?? '') ?>">
+                        <h2>
+                            <?= htmlspecialchars($ad['title']) ?>
+                        </h2>
+                        <p>
+                            <?= nl2br(htmlspecialchars($ad['description'])) ?>
+                        </p>
+                        <p><strong>Цена:</strong>
+                            <?= htmlspecialchars($ad['price']) ?> ₽
+                        </p>
+                        <p>
+                            <?= htmlspecialchars($ad['created_at']) ?>
+                        <p>
                     </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
-                    <div class="listing-card">
-                        <img src="/assets/bananchik.png" alt="Объявление" />
-                        <div>Автомобиль BANANCHIK</div>
-                        <div>900 000 руб.</div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
 
             <div class="footer">
                 &copy; 2025. Все права защищены.
