@@ -5,8 +5,6 @@
   <meta charset="UTF-8" />
   <title>Добавление объявления</title>
   <style>
-    /* ======= ОБЩИЙ ФОН И КОНТЕЙНЕР ======= */
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -29,7 +27,6 @@
 
     .header {
       display: flex;
-      /* background: url('../../public/assets/header_main.png') no-repeat center; */
       background: url('/assets/header_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
@@ -39,15 +36,16 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       margin-bottom: 20px;
     }
+
     .header-text {
-            margin-left: 100px;
-        }
+      margin-left: 100px;
+    }
+
     h1 {
       text-align: center;
       margin-bottom: 30px;
     }
 
-    /* ======= ЛЕВАЯ ЧАСТЬ: ФОТО ======= */
     .photo-upload {
       background: #a00;
       width: 280px;
@@ -80,10 +78,9 @@
       padding: 6px 10px;
       cursor: pointer;
       width: 60%;
-      gap:10px;
+      gap: 10px;
     }
 
-    /* ======= ПРАВАЯ ЧАСТЬ: ФОРМА ======= */
 
     .form-group {
       margin-bottom: 15px;
@@ -105,7 +102,6 @@
       height: 100px;
     }
 
-    /* ======= КНОПКИ ======= */
 
     .btn {
       background: #c00;
@@ -123,10 +119,10 @@
       cursor: not-allowed;
     }
 
-    /* ======= ПОЛЯ ФОРМЫ И КНОПКИ ======= */
 
     .form-container {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       margin-left: 40px;
@@ -142,7 +138,6 @@
       text-align: center;
     }
 
-    /* ======= УВЕДОМЛЕНИЕ ======= */
 
     .notification {
       text-align: center;
@@ -155,7 +150,6 @@
     }
 
     .footer {
-      /* background: url('../../public/assets/footer_main.png') no-repeat center; */
       background: url('/assets/footer_main.png') no-repeat center;
       background-size: cover;
       padding: 20px;
@@ -239,6 +233,34 @@
       color: red;
       font-weight: bold;
     }
+
+    .feedback__text {
+      margin-bottom: 7px;
+      font-family: Montserrat;
+      font-size: 16px;
+      font-weight: 600;
+      color: #282828;
+    }
+
+    .feedback__label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 132px;
+      height: 32px;
+      border-radius: 5px;
+      font-size: 12px;
+      text-align: center;
+      background-color: #c00;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-left: 25%;
+    }
+
+    .feedback__file {
+      display: none;
+    }
   </style>
 </head>
 
@@ -246,29 +268,24 @@
   <div class="overlay">
     <div class="container">
       <div class="header">
-        <!-- <div class="logo"><img src="../../public/assets/Logo.png" style="width: 80px; height: 30px;"></div> -->
-        <div class="logo"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></div>
+        <div class="logo"><a href="/"><img src="/assets/Logo.png" style="width: 80px; height: 30px;"></a></div>
         <div class="header-text">
           Всё что нужно - ты найдёшь у нас! <br />
           Тысячи продавцов и тысячи покупателей!
         </div>
         <button id="menuToggle" class="menu-toggle">☰</button>
-        <!-- <div class="header-buttons">
-                    <button>Подать объявление</button>
-                    <button>Личный кабинет</button>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                    <button class="logout-btn"><a href="/logout"
-                            style="color:red;text-decoration: none;">Выйти</a></button>
-                    <?php endif; ?>
-                </div> -->
       </div>
       <h1>Добавление объявления</h1>
 
-      <div class="form-container">
+      <form class="form-container" action="/create" method="POST" enctype="multipart/form-data">
         <!-- Фото -->
         <div>
           <div class="photo-upload" id="photoPreview">Фотография</div>
-          <input type="file" id="photoInput" multiple style="margin-top:10px" />
+          <label class="feedback__label">
+            Загрузить файл
+            <input type="file" name='photos[]' id="photoInput" class="feedback__file" multiple
+              style="margin-top:10px" />
+          </label>
           <div class="photo-controls">
             <button style="margin-right:20px;" onclick="prevPhoto()">←</button>
             <button onclick="nextPhoto()">→</button>
@@ -279,19 +296,19 @@
         <div class="form-fields">
           <div class="form-group">
             <label>Название</label>
-            <input type="text" id="title" />
+            <input type="text" name="title" id="title" required />
           </div>
           <div class="form-group">
             <label>Описание</label>
-            <textarea id="description"></textarea>
+            <textarea name="description" id="description" required></textarea>
           </div>
           <div class="form-group">
             <label>Цена</label>
-            <input type="text" id="price" />
+            <input type="text" name="price" id="price" pattern="[0-9]*" required />
           </div>
           <div class="form-group">
             <label>Категория</label>
-            <select id="category">
+            <select name="category" id="category">
               <option value="">Выберите категорию</option>
               <option value="1">Автомобили и запчасти</option>
               <option value="2">Квартиры и дачи</option>
@@ -303,34 +320,36 @@
           </div>
         </div>
 
-        <!-- Боковое меню -->
-        <div id="sideMenu" class="side-menu">
-          <div class="side-menu-header">
-            <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
-            <span>Resell.ru</span>
-          </div>
-          <ul class="side-menu-list">
-            <li><a href="#">Подать объявление</a></li>
-            <li><a href="#">Личный кабинет</a></li>
-            <?php if (isset($_SESSION['user_id'])): ?>
-            <li><a href="/logout">Выйти</a></li>
-            <?php endif; ?>
-          </ul>
+        <!-- Кнопки -->
+        <div class="submit-controls" style="width: 100%; height: 0%;">
+          <input class="btn" type="submit" value="Опубликовать" />
+          <button class="btn" type="reset">Отмена</button>
         </div>
-      </div>
+      </form>
 
-      <!-- Уведомление -->
-      <div class="notification" id="successMessage">Объявление успешно опубликовано!</div>
-
-      <!-- Кнопки -->
-      <div class="submit-controls">
-        <button class="btn" id="submitBtn" disabled onclick="submitForm()">Опубликовать</button>
-        <button class="btn" onclick="location.reload()">Отмена</button>
-      </div>
-      <div class="footer">
-        &copy; 2025. Все права защищены.
+      <!-- Боковое меню -->
+      <div id="sideMenu" class="side-menu">
+        <div class="side-menu-header">
+          <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
+          <span>Resell.ru</span>
+        </div>
+        <ul class="side-menu-list">
+          <li><a href="#">Подать объявление</a></li>
+          <li><a href="#">Личный кабинет</a></li>
+          <?php if (isset($_SESSION['user_id'])): ?>
+          <li><a href="/logout">Выйти</a></li>
+          <?php endif; ?>
+        </ul>
       </div>
     </div>
+
+    <!-- Уведомление -->
+    <div class="notification" id="successMessage">Объявление успешно опубликовано!</div>
+
+    <div class="footer">
+      &copy; 2025. Все права защищены.
+    </div>
+  </div>
   </div>
 
   <script>
@@ -339,7 +358,25 @@
     const priceInput = document.getElementById('price');
     const categoryInput = document.getElementById('category');
     const photoInput = document.getElementById('photoInput');
-    const submitBtn = document.getElementById('submitBtn');
+    const submitBtn = document.getElementById('btn');
+
+    const sideMenuList = document.querySelector(".side-menu-list");
+    const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+    let currentOrder = [];
+
+    function updateSideMenu() {
+      sideMenuList.innerHTML = '';
+
+      currentOrder.filter(item => item.is_visible)
+        .forEach(item => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = item['url'];
+          a.textContent = item['title'];
+          li.appendChild(a);
+          sideMenuList.appendChild(li);
+        });
+    }
 
     let photos = [];
     let currentPhotoIndex = 0;
@@ -395,33 +432,32 @@
       }
     }
 
-    // Отправка на сервер
-    async function submitForm() {
-      const formData = new FormData();
-      formData.append('title', titleInput.value);
-      formData.append('description', descInput.value);
-      formData.append('price', priceInput.value);
-      formData.append('category', categoryInput.value);
-      photos.forEach((photo, i) => {
-        formData.append('photos[]', photo);
-      });
-
-      try {
-        const response = await fetch('https://your-server.com/api/listings', {
-          method: 'POST',
-          body: formData,
-        });
-        if (response.ok) {
-          document.getElementById('successMessage').style.display = 'block';
-        } else {
-          alert('Ошибка при публикации');
-        }
-      } catch (err) {
-        alert('Ошибка соединения с сервером');
-      }
-    }
     document.getElementById("menuToggle").addEventListener("click", function () {
       document.getElementById("sideMenu").classList.toggle("open");
+    });
+
+    document.addEventListener("DOMContentLoaded", async function () {
+      const response = await fetch('/api/menu-settings');
+      const data = await response.json();
+      list_items = JSON.parse(data.menu_config);
+      list_items = list_items['items'];
+      list_items.forEach(item => {
+        switch (item['title']) {
+          case 'Create':
+            item['title'] = menuItems[0];
+            break;
+          case 'Profile':
+            item['title'] = menuItems[1];
+            break;
+          default:
+            item['title'] = menuItems[2];
+            break;
+        }
+      });
+
+      currentOrder = list_items || [];
+
+      updateSideMenu();
     });
   </script>
 </body>
