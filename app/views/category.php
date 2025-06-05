@@ -295,10 +295,15 @@
                 <button id="menuToggle" class="menu-toggle">☰</button>
             </div>
             <div class="search-section">
-
-                <input class="search-input" type="text" placeholder="Поиск.." />
-                <button class="search-button">Найти</button>
-
+                <form method="POST" action="/search">
+                    <input class="search-input" type="text" name="findString" placeholder="Поиск.." />
+                    <input type="hidden" name="category_id" value="<?= htmlspecialchars($slug) ?>">
+                    <input type="submit" class="search-button" value="Найти">
+                </form>
+                <!-- Ничего не найдено: -->
+                <?php if (isset($error)): ?>
+                    <p id="error-message" style="color: red;"><?= htmlspecialchars($error) ?></p>
+                <?php endif; ?>
                 <div id="sideMenu" class="side-menu">
                     <div class="side-menu-header">
                         <img src="/assets/Logo.png" alt="Логотип" width="50" height="20">
@@ -313,10 +318,18 @@
                     </ul>
                 </div>
             </div>
-            <div class="pred-title">Категория:
-                <?= htmlspecialchars($category['title']) ?>
-            </div>
+            <?php if (!empty($isSearch) && $isSearch): ?>
+                    Результаты поиска по запросу: "<?= htmlspecialchars($find) ?>"
+            <?php else: ?>
+                <div class="pred-title">Категория:
+                    <?= htmlspecialchars($category['title']) ?>
+                </div>
+            <?php endif; ?>
+
             <div class="sort-controls">
+                 <?php if (isset($find)): ?>
+                       <h2>Результаты поиска по запросу: <?= htmlspecialchars($find) ?></h2>
+                <?php endif; ?>
                 <form method="get">
                     <input type="hidden" name="page" value="1">
                     <label for="sort">Сортировать по:</label>
@@ -342,6 +355,7 @@
             <div class="listings">
                 <div class="listing-grid">
                     <div class="listing-card">
+                        <img src="<?= htmlspecialchars(ltrim($ad['img_path_preview'], '.') ?? '/assets/no-image.jpg') ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
                         <h2>
                             <?= htmlspecialchars($ad['title']) ?>
                         </h2>
@@ -380,6 +394,47 @@
         </div>
     </div>
     <script>
+        const sideMenuList = document.querySelector(".side-menu-list");
+        const menuItems = ["Подать объявление", "Личный кабинет", "Выйти"];
+        let currentOrder = [];
+
+        function updateSideMenu() {
+            sideMenuList.innerHTML = '';
+
+            currentOrder.filter(item => item.is_visible)
+                .forEach(item => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = item['url'];
+                    a.textContent = item['title'];
+                    li.appendChild(a);
+                    sideMenuList.appendChild(li);
+                });
+        }
+        document.addEventListener("DOMContentLoaded", async function () {
+           const response = await fetch('/api/menu-settings');
+            const data = await response.json();
+            list_items = JSON.parse(data.menu_config);
+            list_items = list_items['items'];
+            list_items.forEach(item => {
+                switch (item['title']) {
+                    case 'Create':
+                        item['title'] = menuItems[0];
+                        break;
+                    case 'Profile':
+                        item['title'] = menuItems[1];
+                        break;
+                    default:
+                        item['title'] = menuItems[2];
+                        break;
+                }
+            });
+
+            currentOrder = list_items || [];
+
+            updateSideMenu();
+        });
+
         document.getElementById("menuToggle").addEventListener("click", function () {
             document.getElementById("sideMenu").classList.toggle("open");
         });

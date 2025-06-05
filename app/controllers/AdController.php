@@ -9,8 +9,8 @@ class AdController {
 
     private function createPreviewWithWatermark($srcPath, $previewPath, $watermarkPath) {
             $image = imagecreatefromstring(file_get_contents($srcPath));
-            $width = 300;
-            $height = 300;
+            $width = 200;
+            $height = 200;
 
             $preview = imagecreatetruecolor($width, $height);
             imagecopyresampled($preview, $image, 0, 0, 0, 0, $width, $height, imagesx($image), imagesy($image));
@@ -25,6 +25,7 @@ class AdController {
             imagedestroy($image);
             imagedestroy($preview);
             imagedestroy($watermark);
+
     }
 
     public function create() {
@@ -51,13 +52,20 @@ class AdController {
                 $newName = uniqid('img_') . '.' . $ext;
 
                 $targetPath = $uploadDir . $newName;
-                move_uploaded_file($tmpName, $targetPath);
 
-                $previewPath = $uploadDir . 'preview_' . $newName;
-                self::createPreviewWithWatermark($targetPath, $previewPath, $watermarkPath);
+                $previewName = 'preview_' . $newName;
+                $imgPath = './uploads/'.$newName;
+                $imgPath_preview = './uploads/'.$previewName;
+
+                if (move_uploaded_file($tmpName, $targetPath)){
+                    $previewPath = $uploadDir . 'preview_' . $newName;
+                    self::createPreviewWithWatermark($targetPath, $previewPath, $watermarkPath, $newName);
+                    Adverts::attachPhoto($adId, $newName, $previewName, $imgPath, $imgPath_preview);
+                }
             }
 
-            echo json_encode(['success' => true]);
+            // echo json_encode(['success' => true]);
+            require __DIR__.'/../views/add_new.php';
             exit;
         }
     }

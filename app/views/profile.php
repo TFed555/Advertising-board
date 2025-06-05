@@ -327,7 +327,7 @@
 
     .listing-card img {
       width: 100%;
-      height: 120px;
+      height: 150px;
       object-fit: cover;
       border-radius: 5px;
     }
@@ -419,7 +419,7 @@
 
       <button class="save-btn" id="saveBtn" disabled>Сохранить</button>
       <div class="message" id="message">Настройки сохранены</div>
-      <button class="add-btn" id="addBtn" disabled>Добавить объявление</button>
+      <button class="add-btn" id="addBtn" disabled><a href="/createAdv">Добавить объявление</a></button>
       <div class="listings">
     <div class="pred-title" style="margin-bottom: 20px;">Ваши объявления</div>
     <form method="get">
@@ -427,7 +427,7 @@
             <?php if (!empty($userAds)): ?>
                 <?php foreach ($userAds as $ad): ?>
                     <div class="listing-card">
-                        <img src="<?= htmlspecialchars($ad['image_url'] ?? '/assets/no-image.png') ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
+                        <img src="<?= htmlspecialchars($ad['img_path_preview'] ?? '/assets/no-image.jpg') ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
                         <h3><?= htmlspecialchars($ad['title']) ?></h3>
                         <p><?= htmlspecialchars($ad['price']) ?> ₽</p>
                         <p><?= date('d.m.Y', strtotime($ad['created_at'])) ?></p>

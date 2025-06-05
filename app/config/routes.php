@@ -14,6 +14,7 @@ $router->add('POST', '/repair', 'RepairController@repair');
 $router->add('POST', '/reset', 'RepairController@reset');
 $router->add('POST', '/profile', 'UserController@updateProfile');
 $router->add('POST', '/create', 'AdController@create');
+$router->add('POST', '/search', 'CategoryController@search');
 
 //для api запросов
 $router->add('POST', '/api/category', 'ApiController@handleCategory');
