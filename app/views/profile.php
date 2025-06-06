@@ -131,6 +131,10 @@
     .menu-view,
     .menu-order {
       flex: 1;
+      padding: 10px;
+      border-width: 3px;
+      border-style: inset;
+      border-radius:15px;
     }
 
     .menu-view h3,
@@ -365,7 +369,7 @@
       <div class="pred-title">Личный кабинет</div>
       <div class="user-info">
         <div class="user-photo">
-          <img src="/assets/compik.png" alt="User Photo" />
+          <img src="/assets/user.jpg" alt="User Photo" />
         </div>
       <form method="POST" action="/profile">
         <div class="user-fields">
