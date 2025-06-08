@@ -18,9 +18,8 @@ RUN apt-get update && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
-COPY . /var/www
+COPY . /var/www/
 
 RUN composer install --no-interaction
 
